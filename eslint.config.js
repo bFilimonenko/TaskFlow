@@ -1,17 +1,43 @@
-import js from '@eslint/js';
+// @ts-check
+import eslint from '@eslint/js';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier/prettier';
 
 export default tseslint.config(
-  { ignores: ['node_modules/', 'dist/', 'build/'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    ignores: ['node_modules/', 'dist/', 'build/'],
+  },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  // Backend-specific (Nest)
+  {
+    files: ['**/*.ts', '**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+    },
+  },
+  // Frontend-specific (React)
+  {
+    files: ['frontend/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
+      sourceType: 'module',
       globals: globals.browser,
     },
     plugins: {
@@ -24,9 +50,8 @@ export default tseslint.config(
     },
   },
   {
-    name: 'with-prettier',
     rules: {
       ...prettierConfig.rules,
     },
-  },
+  }
 );
