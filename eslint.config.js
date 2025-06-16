@@ -53,5 +53,5 @@ export default tseslint.config(
     rules: {
       ...prettierConfig.rules,
     },
-  }
+  },
 );
