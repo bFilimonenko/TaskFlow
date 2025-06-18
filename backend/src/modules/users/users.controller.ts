@@ -1,11 +1,21 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param, Patch,
+  SerializeOptions,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
-import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import { GetUserDto } from './dto/response/get-user.dto';
 import { UsersService } from './users.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('/users')
 export class UsersController {
   constructor(private readonly appService: UsersService) {
@@ -20,6 +30,7 @@ export class UsersController {
     type: () => GetUserDto,
     isArray: true,
   })
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
   async findAll(): Promise<GetUserDto[]> {
     return await this.appService.findAll();
   }
@@ -32,23 +43,12 @@ export class UsersController {
     status: HttpStatus.OK,
     type: () => GetUserDto,
   })
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
   findOne(@Param('id') id: number): Promise<GetUserDto | null> {
     return this.appService.findOneByID(id);
   }
 
-  @Post()
-  @ApiOperation({
-    summary: 'Create a new user',
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: () => GetUserDto,
-  })
-  create(@Body() createUserDto: CreateUserDto): Promise<GetUserDto | null> {
-    return this.appService.create(createUserDto);
-  }
-
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({
     summary: 'Update a user by id',
   })

@@ -1,24 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEmail } from 'class-validator';
-import { User } from '../../../entity/user.entity';
+import { Expose } from 'class-transformer';
+import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class UserDto implements User {
+export class UserDto {
   @ApiProperty({
     description: 'User id',
     example: 1,
   })
+  @IsNumber()
+  @Expose()
   id: number;
 
   @ApiProperty({
     description: 'First name',
     example: 'John',
   })
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
   firstName: string;
 
   @ApiProperty({
     description: 'Last name',
     example: 'Doe',
   })
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
   lastName: string;
 
   @ApiProperty({
@@ -26,19 +34,17 @@ export class UserDto implements User {
     example: 'john@gmail.com',
   })
   @IsEmail()
+  @IsNotEmpty()
+  @Expose()
   email: string;
-
-  @ApiProperty({
-    description: 'User password',
-    example: 'pass1234',
-  })
-  password: string;
 
   @ApiProperty({
     description: 'User city',
     example: 'Dnipro',
     required: false,
   })
+  @IsString()
+  @Expose()
   city?: string;
 
   @ApiProperty({
@@ -46,6 +52,8 @@ export class UserDto implements User {
     example: 25,
     required: false,
   })
+  @IsNumber()
+  @Expose()
   age?: number;
 
   @ApiProperty({
@@ -54,5 +62,6 @@ export class UserDto implements User {
     required: false,
   })
   @IsBoolean()
+  @Expose()
   isActive?: boolean = true;
 }
