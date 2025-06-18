@@ -1,13 +1,15 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UpdateResult } from 'typeorm';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
-import { UserDto } from './dto/user.dto';
+import { GetUserDto } from './dto/response/get-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('/users')
 export class UsersController {
-  constructor(private readonly appService: UsersService) {}
+  constructor(private readonly appService: UsersService) {
+  }
 
   @Get()
   @ApiOperation({
@@ -15,9 +17,10 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => [UserDto],
+    type: () => GetUserDto,
+    isArray: true,
   })
-  async findAll(): Promise<UserDto[]> {
+  async findAll(): Promise<GetUserDto[]> {
     return await this.appService.findAll();
   }
 
@@ -27,10 +30,10 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => UserDto,
+    type: () => GetUserDto,
   })
-  findOne(@Param('id') id: number) {
-    return this.appService.findOne(id);
+  findOne(@Param('id') id: number): Promise<GetUserDto | null> {
+    return this.appService.findOneByID(id);
   }
 
   @Post()
@@ -39,9 +42,9 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => UserDto,
+    type: () => GetUserDto,
   })
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto): Promise<GetUserDto | null> {
     return this.appService.create(createUserDto);
   }
 
@@ -51,9 +54,9 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => UserDto,
+    type: () => GetUserDto,
   })
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
     return this.appService.update(id, updateUserDto);
   }
 
@@ -61,7 +64,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Delete a user by id',
   })
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): Promise<void> {
     return this.appService.remove(id);
   }
 }

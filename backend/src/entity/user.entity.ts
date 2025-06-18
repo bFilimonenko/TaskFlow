@@ -1,6 +1,7 @@
+import { Exclude } from 'class-transformer';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,11 +12,18 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column()
+  email: string;
+
+  @Exclude()
+  @Column()
+  password: string;
+
   @Column({ nullable: true })
   city?: string;
 
-  @Column()
-  age: number;
+  @Column({ nullable: true })
+  age?: number;
 
   @Column({ default: false })
   isActive?: boolean;
