@@ -11,8 +11,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {
-  }
+  ) {}
 
   async findAll(): Promise<UserWithPasswordDto[]> {
     return await this.usersRepository.find();

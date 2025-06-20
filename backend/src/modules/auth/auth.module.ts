@@ -20,11 +20,10 @@ import { AuthService } from './auth.service';
       inject: [ConfigService],
     }),
     forwardRef(() => UsersModule),
-    TypeOrmModule.forFeature([RefreshToken])
+    TypeOrmModule.forFeature([RefreshToken]),
   ],
   controllers: [AuthController],
   providers: [AuthService],
   exports: [AuthService, JwtModule],
 })
-export class AuthModule {
-}
+export class AuthModule {}

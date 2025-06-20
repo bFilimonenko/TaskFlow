@@ -16,7 +16,8 @@ export class AuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     @InjectRepository(RefreshToken)
-    private refreshTokenRepository: Repository<RefreshToken>) {
+    private refreshTokenRepository: Repository<RefreshToken>,
+  ) {
   }
 
   async signUp(userdata: SignUpDto): Promise<GetUserDto> {
@@ -35,7 +36,15 @@ export class AuthService {
   }
 
   async createRefreshToken(userId: number): Promise<string> {
-    const token: string = await this.jwtService.signAsync({ id: userId }, { expiresIn: '7d' });
+    await this.refreshTokenRepository.delete({ user: { id: userId } });
+
+    const token: string = await this.jwtService.signAsync(
+      { id: userId },
+      {
+        secret: this.configService.get<string>('REFRESH_SECRET'),
+        expiresIn: '7d',
+      },
+    );
     const validFrom = new Date();
     const validUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
@@ -52,7 +61,7 @@ export class AuthService {
     return token;
   }
 
-  async login(email: string, receivedPass: string): Promise<string | any> {
+  async login(email: string, receivedPass: string): Promise<any> {
     try {
       const user = await this.usersService.findOneByEmail(email);
 
@@ -60,11 +69,10 @@ export class AuthService {
         throw new BadRequestException('User does not exist');
       }
 
-      bcrypt.compare(receivedPass, user.password, function(err, result: boolean) {
-        if (err || !result) {
-          throw new UnauthorizedException();
-        }
-      });
+      const isMatch = await bcrypt.compare(receivedPass, user.password);
+      if (!isMatch) {
+        throw new UnauthorizedException('Invalid password');
+      }
 
       return {
         access_token: await this.createAccessToken(user.id),
@@ -75,4 +83,25 @@ export class AuthService {
     }
   }
 
+  async refreshTokens(refreshToken: string): Promise<any> {
+    try {
+      const payload = await this.jwtService.verify(refreshToken);
+      const userId = payload.id;
+
+      const tokenRecord = await this.refreshTokenRepository.findOneBy({ refreshToken });
+      if (!tokenRecord) {
+        throw new UnauthorizedException('Refresh token not found');
+      }
+
+      const accessToken = await this.createAccessToken(userId);
+      const newRefreshToken = await this.createRefreshToken(userId);
+
+      return {
+        access_token: accessToken,
+        refresh_token: newRefreshToken,
+      };
+    } catch (err) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
 }
