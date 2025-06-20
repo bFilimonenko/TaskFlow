@@ -25,4 +25,5 @@ export class User {
 
   @Column({ default: false })
   isActive?: boolean;
+
 }

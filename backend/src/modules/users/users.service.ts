@@ -4,8 +4,7 @@ import { Repository, UpdateResult } from 'typeorm';
 import { User } from '../../entity/user.entity';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
-import { GetHashedPassDto } from './dto/response/get-hashed-pass.dto';
-import { GetUserDto } from './dto/response/get-user.dto';
+import { UserWithPasswordDto } from './dto/user-with-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,23 +14,19 @@ export class UsersService {
   ) {
   }
 
-  async findAll(): Promise<GetUserDto[]> {
+  async findAll(): Promise<UserWithPasswordDto[]> {
     return await this.usersRepository.find();
   }
 
-  async findOneByID(id: number): Promise<GetUserDto | null> {
+  async findOneByID(id: number): Promise<UserWithPasswordDto | null> {
     return await this.usersRepository.findOneBy({ id });
   }
 
-  async findOneByEmail(email: string): Promise<GetUserDto | null> {
+  async findOneByEmail(email: string): Promise<UserWithPasswordDto | null> {
     return await this.usersRepository.findOneBy({ email });
   }
 
-  async getHashedPassByEmail(email: string): Promise<GetHashedPassDto | null> {
-    return await this.usersRepository.findOneBy({ email });
-  }
-
-  async create(user: CreateUserDto): Promise<GetUserDto> {
+  async create(user: CreateUserDto): Promise<UserWithPasswordDto> {
     return await this.usersRepository.save(user);
   }
 

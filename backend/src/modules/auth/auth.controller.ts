@@ -40,7 +40,7 @@ export class AuthController {
     status: HttpStatus.OK,
     description: 'Success',
   })
-  login(@Body() { email, password }: LoginDto): Promise<void> {
+  login(@Body() { email, password }: LoginDto): Promise<string | any> {
     return this.authService.login(email, password);
   }
 }
