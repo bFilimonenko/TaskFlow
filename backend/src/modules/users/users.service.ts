@@ -1,27 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
+import { User } from '../../entity/user.entity';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/request/update-user.dto';
-import { UserDto } from './dto/user.dto';
-import { User } from './user.entity';
+import { GetHashedPassDto } from './dto/response/get-hashed-pass.dto';
+import { GetUserDto } from './dto/response/get-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) {
+  }
 
-  async findAll(): Promise<UserDto[]> {
+  async findAll(): Promise<GetUserDto[]> {
     return await this.usersRepository.find();
   }
 
-  async findOne(id: number): Promise<UserDto | null> {
+  async findOneByID(id: number): Promise<GetUserDto | null> {
     return await this.usersRepository.findOneBy({ id });
   }
 
-  async create(user: CreateUserDto): Promise<UserDto> {
+  async findOneByEmail(email: string): Promise<GetUserDto | null> {
+    return await this.usersRepository.findOneBy({ email });
+  }
+
+  async getHashedPassByEmail(email: string): Promise<GetHashedPassDto | null> {
+    return await this.usersRepository.findOneBy({ email });
+  }
+
+  async create(user: CreateUserDto): Promise<GetUserDto> {
     return await this.usersRepository.save(user);
   }
 

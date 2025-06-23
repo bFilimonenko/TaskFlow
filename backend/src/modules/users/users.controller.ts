@@ -1,13 +1,25 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param, Patch,
+  SerializeOptions,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateUserDto } from './dto/request/create-user.dto';
+import { UpdateResult } from 'typeorm';
 import { UpdateUserDto } from './dto/request/update-user.dto';
-import { UserDto } from './dto/user.dto';
+import { GetUserDto } from './dto/response/get-user.dto';
 import { UsersService } from './users.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('/users')
 export class UsersController {
-  constructor(private readonly appService: UsersService) {}
+  constructor(private readonly appService: UsersService) {
+  }
 
   @Get()
   @ApiOperation({
@@ -15,9 +27,11 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => [UserDto],
+    type: () => GetUserDto,
+    isArray: true,
   })
-  async findAll(): Promise<UserDto[]> {
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  async findAll(): Promise<GetUserDto[]> {
     return await this.appService.findAll();
   }
 
@@ -27,33 +41,22 @@ export class UsersController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => UserDto,
+    type: () => GetUserDto,
   })
-  findOne(@Param('id') id: number) {
-    return this.appService.findOne(id);
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  findOne(@Param('id') id: number): Promise<GetUserDto | null> {
+    return this.appService.findOneByID(id);
   }
 
-  @Post()
-  @ApiOperation({
-    summary: 'Create a new user',
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: () => UserDto,
-  })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.appService.create(createUserDto);
-  }
-
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({
     summary: 'Update a user by id',
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: () => UserDto,
+    type: () => GetUserDto,
   })
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
     return this.appService.update(id, updateUserDto);
   }
 
@@ -61,7 +64,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Delete a user by id',
   })
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): Promise<void> {
     return this.appService.remove(id);
   }
 }
