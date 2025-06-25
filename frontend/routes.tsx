@@ -1,10 +1,12 @@
+import LoginPage from '@/pages/Login/LoginPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from '@/layouts/MainLayout';
+export const isAuth = false;
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: isAuth ? <MainLayout /> : <LoginPage/>,
     children: [
       {
         path: '/home',
