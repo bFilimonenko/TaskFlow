@@ -1,9 +1,8 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { UserDto } from '../user.dto';
+import { UserDto } from '../../../users/dto/user.dto';
 
-export class CreateUserDto extends PickType(UserDto, ['firstName', 'lastName', 'email']) {
+export class SignUpDto extends PickType(UserDto, ['firstName', 'lastName', 'email']) {
   @ApiProperty({
     description: 'User password',
     example: 'pass1234',
