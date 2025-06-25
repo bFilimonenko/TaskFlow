@@ -1,5 +1,7 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { APP_PATHS } from '@/app-paths.enum.ts';
 import { MainLayout } from '@/layouts/MainLayout';
+import { createBrowserRouter } from 'react-router-dom';
+
 
 export const router = createBrowserRouter([
   {
@@ -7,23 +9,23 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '/home',
+        path: APP_PATHS.HOME,
         element: <>HOME</>,
       },
       {
-        path: '/projects',
+        path: APP_PATHS.PROJECTS,
         element: <>PROJECTS</>,
       },
       {
-        path: '/calendar',
+        path: APP_PATHS.CALENDAR,
         element: <>CALENDAR</>,
       },
       {
-        path: '/employees',
+        path: APP_PATHS.EMPLOYEES,
         element: <>EMPLOYEES</>,
       },
       {
-        path: '/settings',
+        path: APP_PATHS.SETTINGS,
         element: <>SETTINGS</>,
       },
       {
