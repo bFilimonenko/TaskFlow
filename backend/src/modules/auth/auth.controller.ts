@@ -11,13 +11,13 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { GetUserDto } from '../users/dto/response/get-user.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/request/login.dto';
+import { RefreshTokenDto } from './dto/request/refresh-token.dto';
 import { SignUpDto } from './dto/request/sign-up.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   @Post('signup')
   @ApiOperation({
@@ -40,7 +40,16 @@ export class AuthController {
     status: HttpStatus.OK,
     description: 'Success',
   })
-  login(@Body() { email, password }: LoginDto): Promise<void> {
+  login(@Body() { email, password }: LoginDto): Promise<string | any> {
     return this.authService.login(email, password);
+  }
+
+  @Post('refresh')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'New tokens returned',
+  })
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.authService.refreshTokens(refreshTokenDto.token);
   }
 }

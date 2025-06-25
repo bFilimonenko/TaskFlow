@@ -5,21 +5,25 @@ import {
   Delete,
   Get,
   HttpStatus,
-  Param, Patch,
+  Param,
+  Patch,
   SerializeOptions,
+  UnauthorizedException,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
+import { AuthGuard } from '../auth/auth.guard';
 import { UpdateUserDto } from './dto/request/update-user.dto';
 import { GetUserDto } from './dto/response/get-user.dto';
 import { UsersService } from './users.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('/users')
+@ApiTags('users')
 export class UsersController {
-  constructor(private readonly appService: UsersService) {
-  }
+  constructor(private readonly appService: UsersService) {}
 
   @Get()
   @ApiOperation({
@@ -30,7 +34,13 @@ export class UsersController {
     type: () => GetUserDto,
     isArray: true,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: () => UnauthorizedException,
+  })
   @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   async findAll(): Promise<GetUserDto[]> {
     return await this.appService.findAll();
   }

@@ -1,4 +1,3 @@
 import { UserDto } from '../user.dto';
 
-export class GetUserDto extends UserDto {
-}
+export class GetUserDto extends UserDto {}
