@@ -1,3 +1,4 @@
+import type { UseMutationResult } from '@tanstack/react-query';
 import { createContext } from 'react';
 
 type User = {
@@ -14,12 +15,15 @@ type UserContextType = {
   isAuth: boolean;
   user: User | null;
   userLoading: boolean;
-  login: () => void;
+  login: UseMutationResult<any, Error, {
+    email: string
+    password: string
+  }, unknown> | null;
 };
 
 export const UserContext = createContext<UserContextType>({
   isAuth: false,
   user: null,
   userLoading: false,
-  login: () => {},
+  login: null,
 });

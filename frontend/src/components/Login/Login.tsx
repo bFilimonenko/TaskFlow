@@ -31,7 +31,7 @@ export function Login({ className, ...props }: ComponentProps<'form'>) {
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
-        login.mutate(values);
+        login?.mutate(values);
         setSubmitting(false);
       }}
     >
