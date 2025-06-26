@@ -1,10 +1,20 @@
 import { createContext } from 'react';
 
+type User = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  city: string | null;
+  age: number | null;
+  isActive: boolean;
+};
+
 type UserContextType = {
   isAuth: boolean;
-  user: any;
+  user: User | null;
   userLoading: boolean;
-  login: any;
+  login: () => void;
 };
 
 export const UserContext = createContext<UserContextType>({
