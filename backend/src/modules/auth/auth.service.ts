@@ -17,8 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     @InjectRepository(RefreshToken)
     private refreshTokenRepository: Repository<RefreshToken>,
-  ) {
-  }
+  ) {}
 
   async signUp(userdata: SignUpDto): Promise<GetUserDto> {
     const saltRounds: number = Number(this.configService.get('SALT_ROUNDS'));
@@ -75,33 +74,41 @@ export class AuthService {
       }
 
       return {
-        access_token: await this.createAccessToken(user.id),
-        refresh_token: await this.createRefreshToken(user.id),
+        accessToken: await this.createAccessToken(user.id),
+        refreshToken: await this.createRefreshToken(user.id),
       };
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
   async refreshTokens(refreshToken: string): Promise<any> {
     try {
-      const payload = await this.jwtService.verify(refreshToken);
+      const payload = await this.jwtService.verify(refreshToken, {
+        secret: this.configService.get('REFRESH_SECRET'),
+      });
       const userId = payload.id;
 
-      const tokenRecord = await this.refreshTokenRepository.findOneBy({ refreshToken });
+      const tokenRecord: RefreshToken | null = await this.refreshTokenRepository.findOneBy({
+        refreshToken,
+      });
+
       if (!tokenRecord) {
-        throw new UnauthorizedException('Refresh token not found');
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+      if (tokenRecord?.validUntil < new Date()) {
+        throw new UnauthorizedException('Refresh token expired');
       }
 
       const accessToken = await this.createAccessToken(userId);
       const newRefreshToken = await this.createRefreshToken(userId);
 
       return {
-        access_token: accessToken,
-        refresh_token: newRefreshToken,
+        accessToken: accessToken,
+        refreshToken: newRefreshToken,
       };
     } catch (err) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw err;
     }
   }
 }

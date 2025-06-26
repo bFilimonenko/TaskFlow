@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Request,
   SerializeOptions,
   UnauthorizedException,
   UseGuards,
@@ -45,6 +46,21 @@ export class UsersController {
     return await this.appService.findAll();
   }
 
+  @Get('/me')
+  @ApiOperation({
+    summary: 'Get one user by id',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: () => GetUserDto,
+  })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  findMe(@Request() req): Promise<GetUserDto | null> {
+    return this.appService.findOneByID(req.user.id);
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Get one user by id',
@@ -54,6 +70,8 @@ export class UsersController {
     type: () => GetUserDto,
   })
   @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findOne(@Param('id') id: number): Promise<GetUserDto | null> {
     return this.appService.findOneByID(id);
   }
