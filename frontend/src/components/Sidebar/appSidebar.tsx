@@ -13,12 +13,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export const AppSidebar = () => {
-  const [currUrl, setCurrUrl] = React.useState('');
+  const [currUrl, setCurrUrl] = React.useState('/home');
 
   return (
     <Sidebar variant="floating">
       <SidebarHeader>
-        <img src="src/assets/task-flow-logo.svg" width={50} height={50} />
+        <img src="src/assets/task-flow-logo.svg" alt="company logo" width={50} height={50} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
