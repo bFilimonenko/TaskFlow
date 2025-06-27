@@ -1,7 +1,9 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
+import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
+import HomePage from '@/pages/Home/HomePage.tsx';
+import LoginPage from '@/pages/Login/LoginPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
-
 
 export const router = createBrowserRouter([
   {
@@ -10,7 +12,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: APP_PATHS.HOME,
-        element: <>HOME</>,
+        element: (
+          <AuthGuard>
+            <HomePage />
+          </AuthGuard>
+        ),
       },
       {
         path: APP_PATHS.PROJECTS,
@@ -33,5 +39,9 @@ export const router = createBrowserRouter([
         element: <h1>oops, something went wrong</h1>,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
   },
 ]);
