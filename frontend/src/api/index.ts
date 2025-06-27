@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: import.meta.env.API_URL,
   timeout: 1000,
 });
 
