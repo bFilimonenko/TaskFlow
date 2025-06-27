@@ -3,6 +3,7 @@ import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
+import SignupPage from '@/pages/Signup/SignupPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -41,7 +42,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
+    path: APP_PATHS.LOGIN,
     element: <LoginPage />,
+  },
+  {
+    path: APP_PATHS.SIGNUP,
+    element: <SignupPage />,
   },
 ]);

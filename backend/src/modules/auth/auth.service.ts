@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { RefreshToken } from '../../entity/refresh-token.entity';
-import { GetUserDto } from '../users/dto/response/get-user.dto';
 import { UsersService } from '../users/users.service';
 import { SignUpDto } from './dto/request/sign-up.dto';
 
@@ -19,12 +18,17 @@ export class AuthService {
     private refreshTokenRepository: Repository<RefreshToken>,
   ) {}
 
-  async signUp(userdata: SignUpDto): Promise<GetUserDto> {
+  async signUp(userdata: SignUpDto): Promise<any> {
     const saltRounds: number = Number(this.configService.get('SALT_ROUNDS'));
     try {
       userdata.password = await bcrypt.hash(userdata.password, saltRounds);
 
-      return await this.usersService.create(userdata);
+      const newUser = await this.usersService.create(userdata);
+
+      return {
+        accessToken: await this.createAccessToken(newUser.id),
+        refreshToken: await this.createRefreshToken(newUser.id),
+      };
     } catch (err) {
       throw new Error('Error hashing password or creating user');
     }
@@ -63,7 +67,6 @@ export class AuthService {
   async login(email: string, receivedPass: string): Promise<any> {
     try {
       const user = await this.usersService.findOneByEmail(email);
-
       if (!user) {
         throw new BadRequestException('User does not exist');
       }

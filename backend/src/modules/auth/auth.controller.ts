@@ -27,8 +27,8 @@ export class AuthController {
     status: HttpStatus.OK,
     type: () => GetUserDto,
   })
-  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
-  signUp(@Body() signUpDto: SignUpDto): Promise<GetUserDto> {
+  // @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  signUp(@Body() signUpDto: SignUpDto): Promise<string | any> {
     return this.authService.signUp(signUpDto);
   }
 
