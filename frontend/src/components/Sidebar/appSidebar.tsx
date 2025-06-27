@@ -1,3 +1,4 @@
+import { APP_PATHS } from '@/app-paths.enum.ts';
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +14,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export const AppSidebar = () => {
-  const [currUrl, setCurrUrl] = React.useState('/home');
+  const [currUrl, setCurrUrl] = React.useState(APP_PATHS.HOME);
 
   return (
     <Sidebar variant="floating">
