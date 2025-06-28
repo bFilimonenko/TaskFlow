@@ -3,6 +3,7 @@ import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
+import ProjectsPage from '@/pages/Projects/ProjectsPage.tsx';
 import SignupPage from '@/pages/Signup/SignupPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: APP_PATHS.PROJECTS,
-        element: <>PROJECTS</>,
+        element: <ProjectsPage />,
       },
       {
         path: APP_PATHS.CALENDAR,

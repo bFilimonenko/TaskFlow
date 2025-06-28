@@ -22,9 +22,9 @@ import { UsersService } from './users.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('/users')
-@ApiTags('users')
+@ApiTags('Users')
 export class UsersController {
-  constructor(private readonly appService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
   @ApiOperation({
@@ -43,7 +43,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   async findAll(): Promise<GetUserDto[]> {
-    return await this.appService.findAll();
+    return await this.usersService.findAll();
   }
 
   @Get('/me')
@@ -58,7 +58,7 @@ export class UsersController {
   @ApiBearerAuth()
   @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
   findMe(@Request() req): Promise<GetUserDto | null> {
-    return this.appService.findOneByID(req.user.id);
+    return this.usersService.findOneByID(req.user.id);
   }
 
   @Get(':id')
@@ -73,7 +73,7 @@ export class UsersController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   findOne(@Param('id') id: number): Promise<GetUserDto | null> {
-    return this.appService.findOneByID(id);
+    return this.usersService.findOneByID(id);
   }
 
   @Patch(':id')
@@ -85,7 +85,7 @@ export class UsersController {
     type: () => GetUserDto,
   })
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
-    return this.appService.update(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -93,6 +93,6 @@ export class UsersController {
     summary: 'Delete a user by id',
   })
   remove(@Param('id') id: number): Promise<void> {
-    return this.appService.remove(id);
+    return this.usersService.remove(id);
   }
 }

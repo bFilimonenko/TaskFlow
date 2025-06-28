@@ -4,9 +4,9 @@ import { Outlet } from 'react-router-dom';
 
 export const MainLayout = () => {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="p-6">
       <AppSidebar />
-      <main>
+      <main className="w-full h-auto">
         {/*<SidebarTrigger />*/}
         <Outlet />
       </main>
