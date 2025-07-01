@@ -1,4 +1,5 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
+import { AddProject } from '@/components/AddProject/AddProject.tsx';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
 import HomePage from '@/pages/Home/HomePage.tsx';
@@ -22,7 +23,16 @@ export const router = createBrowserRouter([
       },
       {
         path: APP_PATHS.PROJECTS,
-        element: <ProjectsPage />,
+        children: [
+          {
+            path: '',
+            element: <ProjectsPage />,
+          },
+          {
+            path: `${APP_PATHS.ADD_PROJECT}`,
+            element: <AddProject />,
+          },
+        ],
       },
       {
         path: APP_PATHS.CALENDAR,
