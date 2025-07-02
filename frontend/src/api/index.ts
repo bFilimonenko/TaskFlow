@@ -7,16 +7,16 @@ export const instance = axios.create({
 });
 
 instance.interceptors.response.use(
-  function (response) {
+  function(response) {
     return response;
   },
-  function (error) {
+  function(error) {
     toast.error(error.response.data.message);
     return Promise.reject(error);
   },
 );
 
-instance.interceptors.request.use(function (config) {
+instance.interceptors.request.use(function(config) {
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

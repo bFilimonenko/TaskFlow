@@ -1,3 +1,4 @@
+import type { ISignupForm } from '@/components/Signup/Signup.tsx';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { createContext } from 'react';
 
@@ -15,10 +16,16 @@ type UserContextType = {
   isAuth: boolean;
   user: User | null;
   userLoading: boolean;
-  login: UseMutationResult<any, Error, {
-    email: string
-    password: string
-  }, unknown> | null;
+  login: UseMutationResult<
+    any,
+    Error,
+    {
+      email: string;
+      password: string;
+    },
+    unknown
+  > | null;
+  signup: UseMutationResult<any, Error, ISignupForm, unknown> | null;
 };
 
 export const UserContext = createContext<UserContextType>({
@@ -26,4 +33,5 @@ export const UserContext = createContext<UserContextType>({
   user: null,
   userLoading: false,
   login: null,
+  signup: null,
 });

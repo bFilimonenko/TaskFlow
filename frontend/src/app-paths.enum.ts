@@ -5,4 +5,5 @@ export enum APP_PATHS {
   EMPLOYEES = '/employees',
   SETTINGS = '/settings',
   LOGIN = '/login',
+  SIGNUP = '/signup',
 }
