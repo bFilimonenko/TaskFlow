@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Tasks } from './tasks.entity';
 
 @Entity('projects')
 export class Projects {
@@ -19,4 +20,7 @@ export class Projects {
 
   @Column({ nullable: true })
   description?: string;
+
+  @OneToMany(() => Tasks, (task) => task.project)
+  tasks: Tasks[];
 }
