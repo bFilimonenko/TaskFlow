@@ -33,7 +33,7 @@ export class ProjectsController {
     type: () => ProjectDto,
   })
   findOne(@Param('id') id: number): Promise<ProjectDto | null> {
-    return this.projectsService.findOneById(id);
+    return this.projectsService.getOneById(id);
   }
 
   @Post()

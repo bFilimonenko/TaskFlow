@@ -36,7 +36,7 @@ export class TasksController {
     return this.tasksService.findOneById(id);
   }
 
-  @Post()
+  @Post(':id')
   @ApiOperation({
     summary: 'Create a task',
   })
@@ -44,8 +44,11 @@ export class TasksController {
     status: HttpStatus.OK,
     type: () => TaskDto,
   })
-  createTask(@Body() createTaskDto: CreateTaskDto): Promise<TaskDto> {
-    return this.tasksService.create(createTaskDto);
+  createTask(
+    @Param('id') projectId: number,
+    @Body() createTaskDto: CreateTaskDto,
+  ): Promise<TaskDto> {
+    return this.tasksService.create(projectId, createTaskDto);
   }
 
   @Patch(':id')

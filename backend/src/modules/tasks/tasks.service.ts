@@ -1,7 +1,8 @@
-import { Injectable, Param } from '@nestjs/common';
+import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { Tasks } from '../../entity/tasks.entity';
+import { ProjectsService } from '../projects/projects.service';
 import { UsersService } from '../users/users.service';
 import { CreateTaskDto } from './dto/request/create-task.dto';
 import { UpdateTaskDto } from './dto/request/update-task.dto';
@@ -12,6 +13,7 @@ export class TasksService {
   constructor(
     @InjectRepository(Tasks) private tasksRepository: Repository<Tasks>,
     private userService: UsersService,
+    private projectService: ProjectsService,
   ) {}
 
   async findAll(): Promise<TaskDto[]> {
@@ -27,7 +29,9 @@ export class TasksService {
       where: { id },
       relations: ['users'],
     });
-    if (!task) return null;
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
 
     return {
       ...task,
@@ -35,10 +39,16 @@ export class TasksService {
     };
   }
 
-  async create(taskDto: CreateTaskDto): Promise<TaskDto> {
+  async create(projectId: number, taskDto: CreateTaskDto): Promise<TaskDto> {
+    const project = await this.projectService.findOneById(projectId);
+
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
     const users = await this.userService.findByIds(taskDto.users);
     const task = this.tasksRepository.create({
       ...taskDto,
+      project,
       users,
     });
     const savedTask = await this.tasksRepository.save(task);

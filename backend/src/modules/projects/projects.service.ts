@@ -11,11 +11,20 @@ export class ProjectsService {
   constructor(@InjectRepository(Projects) private projectsRepository: Repository<Projects>) {}
 
   async findAll(): Promise<ProjectDto[]> {
-    return await this.projectsRepository.find();
+    return await this.projectsRepository.find({
+      relations: ['tasks'],
+    });
   }
 
   async findOneById(@Param('id') id: number): Promise<ProjectDto | null> {
     return await this.projectsRepository.findOneBy({ id });
+  }
+
+  async getOneById(id: number): Promise<ProjectDto | null> {
+    return await this.projectsRepository.findOne({
+      where: { id },
+      relations: ['tasks'],
+    });
   }
 
   async create(project: CreateProjectDto): Promise<ProjectDto> {
