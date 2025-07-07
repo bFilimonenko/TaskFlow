@@ -8,5 +8,4 @@ export class CreateTaskDto extends PickType(TaskDto, [
   'priority',
   'users',
   'description',
-  'projectId',
 ]) {}

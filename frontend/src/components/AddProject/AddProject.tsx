@@ -1,7 +1,13 @@
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.tsx';
 import { Textarea } from '@/components/ui/textarea.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
@@ -10,7 +16,6 @@ import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon, X } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { Calendar } from '../ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
@@ -51,10 +56,8 @@ export const AddProject = () => {
         }}
         validationSchema={addProjectSchema}
         onSubmit={(values: IAddProjectForm) => {
-          console.log(values);
           createProject?.mutate(values);
-          navigate(-1)
-          toast.success('Add project successfully.');
+          navigate(-1);
         }}
       >
         {({ handleSubmit, values }) => (
@@ -166,13 +169,7 @@ export const AddProject = () => {
                 <Field name="description" id="description" as={Textarea} className="resize-none" />
                 <ErrorMessage name="description" component="div" className="text-red-700" />
               </div>
-              <Button
-                type="submit"
-                className="justify-self-end"
-                variant="custom"
-                onClick={() => {
-                }}
-              >
+              <Button type="submit" className="justify-self-end" variant="custom">
                 Save Project
               </Button>
             </div>

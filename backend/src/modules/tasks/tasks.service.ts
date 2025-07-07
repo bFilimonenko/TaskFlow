@@ -6,7 +6,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { UsersService } from '../users/users.service';
 import { CreateTaskDto } from './dto/request/create-task.dto';
 import { UpdateTaskDto } from './dto/request/update-task.dto';
-import { TaskDto } from './dto/task.dto';
+import { GetTaskDto } from './dto/response/get-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -16,7 +16,7 @@ export class TasksService {
     private projectService: ProjectsService,
   ) {}
 
-  async findAll(): Promise<TaskDto[]> {
+  async findAll(): Promise<GetTaskDto[]> {
     const tasks = await this.tasksRepository.find({ relations: ['users'] });
     return tasks.map((task) => ({
       ...task,
@@ -24,7 +24,7 @@ export class TasksService {
     }));
   }
 
-  async findOneById(@Param('id') id: number): Promise<TaskDto | null> {
+  async findOneById(@Param('id') id: number): Promise<GetTaskDto | null> {
     const task = await this.tasksRepository.findOne({
       where: { id },
       relations: ['users'],
@@ -39,7 +39,7 @@ export class TasksService {
     };
   }
 
-  async create(projectId: number, taskDto: CreateTaskDto): Promise<TaskDto> {
+  async create(projectId: number, taskDto: CreateTaskDto): Promise<GetTaskDto> {
     const project = await this.projectService.findOneById(projectId);
 
     if (!project) {

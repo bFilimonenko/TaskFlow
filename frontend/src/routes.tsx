@@ -4,8 +4,10 @@ import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
+import ProjectPage from '@/pages/ProjectDetails/ProjectPage.tsx';
 import ProjectsPage from '@/pages/Projects/ProjectsPage.tsx';
 import SignupPage from '@/pages/Signup/SignupPage.tsx';
+import TasksPage from '@/pages/Tasks/TasksPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -27,10 +29,20 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <ProjectsPage />,
+            children: [
+              {
+                path: APP_PATHS.PROJECT_TASKS,
+                element: <TasksPage />,
+              },
+            ],
           },
           {
-            path: `${APP_PATHS.ADD_PROJECT}`,
+            path: APP_PATHS.ADD_PROJECT,
             element: <AddProject />,
+          },
+          {
+            path: APP_PATHS.PROJECT_DETAILS,
+            element: <ProjectPage />,
           },
         ],
       },

@@ -1,7 +1,8 @@
-import { Injectable, Param } from '@nestjs/common';
+import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { Projects } from '../../entity/projects.entity';
+import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
 import { CreateProjectDto } from './dto/request/create-project.dto';
 import { UpdateProjectDto } from './dto/request/update-project.dto';
@@ -25,6 +26,22 @@ export class ProjectsService {
       where: { id },
       relations: ['tasks'],
     });
+  }
+
+  async getTasksById(id: number): Promise<GetTaskDto[] | null> {
+    const project = await this.projectsRepository.findOne({
+      where: { id },
+      relations: ['tasks', 'tasks.users'],
+    });
+
+    if (!project) {
+      throw new NotFoundException(`Project not found`);
+    }
+
+    return project.tasks.map((task) => ({
+      ...task,
+      users: task.users.map((user) => user.id),
+    }));
   }
 
   async create(project: CreateProjectDto): Promise<ProjectDto> {

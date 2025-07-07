@@ -5,10 +5,10 @@ import { Outlet } from 'react-router-dom';
 
 export const MainLayout = () => {
   return (
-    <SidebarProvider className="p-6">
+    <SidebarProvider>
       <AppSidebar />
       <ProjectsProvider>
-        <main className="w-full h-auto">
+        <main className="w-full h-auto py-5">
           {/*<SidebarTrigger />*/}
           <Outlet />
         </main>
