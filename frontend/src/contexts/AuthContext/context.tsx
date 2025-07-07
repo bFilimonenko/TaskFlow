@@ -12,7 +12,7 @@ type User = {
   isActive: boolean;
 };
 
-type UserContextType = {
+type AuthContextType = {
   isAuth: boolean;
   user: User | null;
   userLoading: boolean;
@@ -28,7 +28,7 @@ type UserContextType = {
   signup: UseMutationResult<any, Error, ISignupForm, unknown> | null;
 };
 
-export const UserContext = createContext<UserContextType>({
+export const AuthContext = createContext<AuthContextType>({
   isAuth: false,
   user: null,
   userLoading: false,

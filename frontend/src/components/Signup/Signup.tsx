@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
-import { useUser } from '@/contexts/UserContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { ArrowRight } from 'lucide-react';
@@ -42,7 +42,7 @@ const signupSchema = Yup.object().shape({
 });
 
 export const Signup = ({ className }: ComponentProps<'form'>) => {
-  const { signup } = useUser();
+  const { signup } = useAuth();
   return (
     <div className={className}>
       <Formik<ISignupForm>

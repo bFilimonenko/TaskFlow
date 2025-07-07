@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/sidebar';
 import { NAVIGATION } from '@/layouts/MainLayout/constants.ts';
 import { LogOut } from 'lucide-react';
-import React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 export const AppSidebar = () => {
-  const [currUrl, setCurrUrl] = React.useState(APP_PATHS.HOME);
+  const [currUrl, setCurrUrl] = useState(APP_PATHS.HOME);
 
   return (
     <Sidebar variant="floating">

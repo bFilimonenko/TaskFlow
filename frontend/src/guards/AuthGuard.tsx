@@ -1,10 +1,10 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import { useUser } from '@/contexts/UserContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { type FC, type PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
-  const { isAuth, userLoading } = useUser();
+  const { isAuth, userLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

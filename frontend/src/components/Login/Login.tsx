@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label';
-import { useUser } from '@/contexts/UserContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { ArrowRight } from 'lucide-react';
@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export function Login({ className, ...props }: ComponentProps<'form'>) {
-  const { login } = useUser();
+  const { login } = useAuth();
 
   return (
     <Formik<ILoginForm>

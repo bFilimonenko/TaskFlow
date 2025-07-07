@@ -2,6 +2,7 @@ import { APP_PATHS } from '@/app-paths.enum.ts';
 import { AddProject } from '@/components/AddProject/AddProject.tsx';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
+import EmployeesPage from '@/pages/Employees/EmployeesPage.tsx';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
 import ProjectPage from '@/pages/ProjectDetails/ProjectPage.tsx';
@@ -52,7 +53,7 @@ export const router = createBrowserRouter([
       },
       {
         path: APP_PATHS.EMPLOYEES,
-        element: <>EMPLOYEES</>,
+        element: <EmployeesPage/>,
       },
       {
         path: APP_PATHS.SETTINGS,
