@@ -5,7 +5,7 @@ export const TasksList = () => {
   const { currentProjectTasks } = useProjects();
 
   return (
-    <div className="flex flex-col gap-2 w-3/4 mr-10">
+    <div className="flex flex-col gap-2 w-3/4">
       {currentProjectTasks.map((task, index) => (
         <TaskCard key={index} task={task} />
       ))}

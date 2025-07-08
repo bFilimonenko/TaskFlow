@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
       },
       {
         path: APP_PATHS.EMPLOYEES,
-        element: <EmployeesPage/>,
+        element: <EmployeesPage />,
       },
       {
         path: APP_PATHS.SETTINGS,

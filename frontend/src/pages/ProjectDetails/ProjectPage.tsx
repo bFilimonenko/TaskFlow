@@ -15,7 +15,7 @@ const ProjectPage = () => {
       <Button variant="link" className="justify-start text-accent" onClick={() => navigate(-1)}>
         <ArrowLeft /> Back to Projects
       </Button>
-      <div className="w-full flex justify-between mb-6 px-10">
+      <div className="w-full flex justify-between mb-6">
         <h1 className="text-4xl font-bold ">{currentProject?.projectName}</h1>
         <Dialog>
           <DialogTrigger asChild>

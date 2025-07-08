@@ -2,7 +2,7 @@ import type { ISignupForm } from '@/components/Signup/Signup.tsx';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { createContext } from 'react';
 
-type User = {
+export type User = {
   id: number;
   firstName: string;
   lastName: string;

@@ -8,7 +8,7 @@ const ProjectsPage = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="w-full flex justify-between mb-6 px-10">
+      <div className="w-full flex justify-between mb-6">
         <h1 className="text-4xl font-bold ">Projects</h1>
         <Button variant="custom" size="custom" onClick={() => navigate(APP_PATHS.ADD_PROJECT)}>
           <Plus />

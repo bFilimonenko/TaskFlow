@@ -8,4 +8,6 @@ export enum API_ENDPOINTS {
 
   TASKS = 'tasks',
   CREATE_TASK = 'tasks/:id',
+
+  EMPLOYEES = 'users',
 }
