@@ -5,11 +5,13 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import TasksPage from '@/pages/Tasks/TasksPage.tsx';
 import { ArrowLeft, Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProjectPage = () => {
   const navigate = useNavigate();
   const { currentProject } = useProjects();
+  const [dialogOpen, setDialogOpen] = useState(false);
   return (
     <div>
       <Button variant="link" className="justify-start text-accent" onClick={() => navigate(-1)}>
@@ -17,14 +19,14 @@ const ProjectPage = () => {
       </Button>
       <div className="w-full flex justify-between mb-6">
         <h1 className="text-4xl font-bold ">{currentProject?.projectName}</h1>
-        <Dialog>
+        <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
           <DialogTrigger asChild>
             <Button variant="custom" size="custom">
               <Plus />
               Add Task
             </Button>
           </DialogTrigger>
-          <AddTask />
+          <AddTask submitCallback={() => setDialogOpen(false)} />
         </Dialog>
       </div>
       <div className="flex gap-6">

@@ -1,4 +1,3 @@
-import { APP_PATHS } from '@/app-paths.enum.ts';
 import {
   Sidebar,
   SidebarContent,
@@ -10,11 +9,10 @@ import {
 } from '@/components/ui/sidebar';
 import { NAVIGATION } from '@/layouts/MainLayout/constants.ts';
 import { LogOut } from 'lucide-react';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export const AppSidebar = () => {
-  const [currUrl, setCurrUrl] = useState(APP_PATHS.HOME);
+  const location = useLocation();
 
   return (
     <Sidebar variant="floating">
@@ -25,11 +23,7 @@ export const AppSidebar = () => {
         <SidebarMenu>
           {NAVIGATION.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                asChild
-                isActive={currUrl === item.url}
-                onClick={() => setCurrUrl(item.url)}
-              >
+              <SidebarMenuButton asChild isActive={location.pathname.split('/')[1] === item.url}>
                 <NavLink to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>

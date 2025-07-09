@@ -144,7 +144,6 @@ export const AddProject = () => {
                   {() => (
                     <Select
                       onValueChange={(newValue: PRIORITY) => {
-                        console.dir(newValue);
                         values.priority = newValue;
                       }}
                     >

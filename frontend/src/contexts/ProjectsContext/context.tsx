@@ -25,7 +25,7 @@ export type Task = {
   priority: PRIORITY;
   estimate: number;
   deadLine: Date;
-  //   users
+  users: number[];
 };
 
 type ProjectsContextType = {

@@ -4,7 +4,6 @@ import { useEmployees } from '@/contexts/EmployeesContext';
 
 export const EmployeesList = () => {
   const { employees, employeesIsLoading } = useEmployees();
-  console.log(employees);
   if (employeesIsLoading || !employees) {
     return <EmployeesLoading />;
   }

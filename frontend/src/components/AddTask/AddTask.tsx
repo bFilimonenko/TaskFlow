@@ -1,9 +1,11 @@
+import { APP_PATHS } from '@/app-paths.enum.ts';
 import type { IAddProjectForm } from '@/components/AddProject/AddProject.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Calendar } from '@/components/ui/calendar.tsx';
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
+import MultipleSelector, { type Option } from '@/components/ui/multiple-selector.tsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
 import { ScrollArea } from '@/components/ui/scroll-area.tsx';
 import {
@@ -14,12 +16,15 @@ import {
   SelectValue,
 } from '@/components/ui/select.tsx';
 import { Textarea } from '@/components/ui/textarea.tsx';
+import { useEmployees } from '@/contexts/EmployeesContext';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 export interface IAddTaskForm {
@@ -28,6 +33,7 @@ export interface IAddTaskForm {
   priority: PRIORITY | undefined;
   estimate: number | undefined;
   deadLine: Date | undefined;
+  users: number[];
 }
 
 const addTaskSchema = Yup.object().shape({
@@ -36,12 +42,28 @@ const addTaskSchema = Yup.object().shape({
   priority: Yup.mixed<PRIORITY>().oneOf(Object.values(PRIORITY)).required(),
   estimate: Yup.number().min(1).required(),
   deadLine: Yup.date().required(),
+  users: Yup.array().min(1).required(),
 });
 
-export const AddTask = () => {
+export const AddTask = ({ submitCallback }: { submitCallback: () => void }) => {
   const [openDeadLineDate, setOpenDeadLineDate] = useState(false);
   const [deadLineDate, setDeadLineDate] = useState<Date | undefined>(undefined);
   const { currentProject, createTask } = useProjects();
+  const { employees } = useEmployees();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentProject) {
+      toast.error('something went wrong!');
+      navigate(`/${APP_PATHS.PROJECTS}`);
+    }
+  }, [currentProject, navigate]);
+  if (!currentProject) return null;
+
+  const employeeOptions: Option[] | undefined = employees?.map((employee) => ({
+    label: `${employee.firstName} ${employee.lastName}`,
+    value: employee.id.toString(),
+  }));
 
   return (
     <DialogContent>
@@ -53,11 +75,12 @@ export const AddTask = () => {
             priority: undefined,
             estimate: undefined,
             deadLine: undefined,
+            users: [],
           }}
           validationSchema={addTaskSchema}
           onSubmit={(values: IAddTaskForm) => {
-            //todo: assigning users
-            createTask?.mutate({ id: currentProject?.id, values: { ...values, users: [1, 2, 3] } });
+            createTask?.mutate({ id: currentProject.id, values });
+            submitCallback();
           }}
         >
           {({ handleSubmit, values }) => (
@@ -130,7 +153,6 @@ export const AddTask = () => {
                         {() => (
                           <Select
                             onValueChange={(newValue: PRIORITY) => {
-                              console.dir(newValue);
                               values.priority = newValue;
                             }}
                           >
@@ -146,6 +168,29 @@ export const AddTask = () => {
                         )}
                       </Field>
                       <ErrorMessage name="priority" component="div" className="text-red-700" />
+                    </div>
+
+                    <div className="grid gap-3">
+                      <div className="flex items-center">
+                        <Label htmlFor="users">Assignee *</Label>
+                      </div>
+                      <Field name="users" id="users">
+                        {() => (
+                          <MultipleSelector
+                            defaultOptions={employeeOptions}
+                            placeholder="Select Assignee"
+                            emptyIndicator={
+                              <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                                no results found.
+                              </p>
+                            }
+                            onChange={(newValue) => {
+                              values.users = newValue.map((option) => Number(option.value));
+                            }}
+                          />
+                        )}
+                      </Field>
+                      <ErrorMessage name="users" component="div" className="text-red-700" />
                     </div>
 
                     <div className="grid gap-3">
