@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
+import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
 import { CreateProjectDto } from './dto/request/create-project.dto';
 import { UpdateProjectDto } from './dto/request/update-project.dto';
@@ -33,7 +34,19 @@ export class ProjectsController {
     type: () => ProjectDto,
   })
   findOne(@Param('id') id: number): Promise<ProjectDto | null> {
-    return this.projectsService.findOneById(id);
+    return this.projectsService.getOneById(id);
+  }
+
+  @Get(':id/tasks')
+  @ApiOperation({
+    summary: 'Get project tasks',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: () => GetTaskDto,
+  })
+  findProjectTasks(@Param('id') id: number): Promise<GetTaskDto[] | null> {
+    return this.projectsService.getTasksById(id);
   }
 
   @Post()

@@ -1,11 +1,11 @@
 import { getMe, loginRequest } from '@/api';
 import { signupRequest } from '@/api/auth/signup.ts';
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import { UserContext } from '@/contexts/UserContext/context.tsx';
+import { AuthContext } from '@/contexts/AuthContext/context.tsx';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type FC, type PropsWithChildren } from 'react';
 
-export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
+export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const queryClient = useQueryClient();
 
   const login = useMutation({
@@ -27,10 +27,10 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data, isFetching } = useQuery({ queryKey: ['user'], queryFn: getMe });
 
   return (
-    <UserContext.Provider
+    <AuthContext.Provider
       value={{ isAuth: !!data, user: data, userLoading: isFetching, login, signup }}
     >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };

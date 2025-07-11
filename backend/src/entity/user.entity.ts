@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Tasks } from './tasks.entity';
 
 @Entity('users')
 export class User {
@@ -25,4 +26,7 @@ export class User {
 
   @Column({ default: false })
   isActive?: boolean;
+
+  @ManyToMany(() => Tasks, (task) => task.users)
+  tasks: Tasks[];
 }
