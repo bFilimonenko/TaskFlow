@@ -1,7 +1,7 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import { AddProject } from '@/components/AddProject/AddProject.tsx';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
+import AddProjectPage from '@/pages/AddProject/AddProjectPage.tsx';
 import EmployeesPage from '@/pages/Employees/EmployeesPage.tsx';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
@@ -32,18 +32,18 @@ export const router = createBrowserRouter([
             element: <ProjectsPage />,
             children: [
               {
-                path: APP_PATHS.PROJECT_TASKS,
+                path: `:projectId/${APP_PATHS.PROJECT_TASKS}`,
                 element: <TasksPage />,
               },
             ],
           },
           {
-            path: APP_PATHS.ADD_PROJECT,
-            element: <AddProject />,
+            path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
+            element: <ProjectPage />,
           },
           {
-            path: APP_PATHS.PROJECT_DETAILS,
-            element: <ProjectPage />,
+            path: APP_PATHS.ADD_PROJECT,
+            element: <AddProjectPage />,
           },
         ],
       },

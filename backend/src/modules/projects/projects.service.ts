@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Projects } from '../../entity/projects.entity';
 import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
@@ -48,8 +48,17 @@ export class ProjectsService {
     return await this.projectsRepository.save(project);
   }
 
-  async update(id: number, project: UpdateProjectDto): Promise<UpdateResult> {
-    return this.projectsRepository.update(id, project);
+  async update(id: number, project: UpdateProjectDto): Promise<ProjectDto> {
+    const existing = await this.projectsRepository.preload({
+      id,
+      ...project,
+    });
+
+    if (!existing) {
+      throw new NotFoundException(`Project with id ${id} not found`);
+    }
+
+    return this.projectsRepository.save(existing);
   }
 
   async remove(id: number): Promise<void> {

@@ -1,5 +1,4 @@
-import { APP_PATHS } from '@/app-paths.enum.ts';
-import type { IAddProjectForm } from '@/components/AddProject/AddProject.tsx';
+import type { IProjectForm } from '@/components/ProjectForm/ProjectForm.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Calendar } from '@/components/ui/calendar.tsx';
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog.tsx';
@@ -22,9 +21,7 @@ import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 export interface IAddTaskForm {
@@ -36,7 +33,7 @@ export interface IAddTaskForm {
   users: number[];
 }
 
-const addTaskSchema = Yup.object().shape({
+export const addTaskSchema = Yup.object().shape({
   taskName: Yup.string().required(),
   description: Yup.string().notRequired(),
   priority: Yup.mixed<PRIORITY>().oneOf(Object.values(PRIORITY)).required(),
@@ -50,14 +47,7 @@ export const AddTask = ({ submitCallback }: { submitCallback: () => void }) => {
   const [deadLineDate, setDeadLineDate] = useState<Date | undefined>(undefined);
   const { currentProject, createTask } = useProjects();
   const { employees } = useEmployees();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!currentProject) {
-      toast.error('something went wrong!');
-      navigate(`/${APP_PATHS.PROJECTS}`);
-    }
-  }, [currentProject, navigate]);
   if (!currentProject) return null;
 
   const employeeOptions: Option[] | undefined = employees?.map((employee) => ({
@@ -133,7 +123,7 @@ export const AddTask = ({ submitCallback }: { submitCallback: () => void }) => {
                               mode="single"
                               selected={deadLineDate}
                               captionLayout="dropdown"
-                              onSelect={(date: IAddProjectForm['deadLine']) => {
+                              onSelect={(date: IProjectForm['deadLine']) => {
                                 values.deadLine = date;
                                 setDeadLineDate(date);
                                 setOpenDeadLineDate(false);

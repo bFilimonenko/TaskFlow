@@ -11,7 +11,7 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    toast.error(error.response.data.message);
+    toast.error(error.response.data.message, { toastId: error.status });
     return Promise.reject(error);
   },
 );

@@ -4,6 +4,7 @@ export enum API_ENDPOINTS {
   USER_ME = 'users/me',
 
   PROJECTS = 'projects',
+  PROJECT_BY_ID = 'projects/:id',
   PROJECT_TASKS = 'projects/:id/tasks',
 
   TASKS = 'tasks',

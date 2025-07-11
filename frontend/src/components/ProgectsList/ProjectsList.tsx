@@ -7,7 +7,7 @@ import { ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ProjectsList = () => {
-  const { projects, isLoading, currentProject, setCurrentProject, getProjectTasks } = useProjects();
+  const { projects, isLoading, currentProject } = useProjects();
   const navigate = useNavigate();
 
   return (
@@ -20,9 +20,7 @@ export const ProjectsList = () => {
             <div
               key={project.id}
               onClick={() => {
-                setCurrentProject(project);
-                navigate(APP_PATHS.PROJECT_TASKS.replace(':id', `${project.id}`));
-                getProjectTasks?.mutate(project.id);
+                navigate(`${project.id}/${APP_PATHS.PROJECT_TASKS}`);
               }}
               className={
                 currentProject?.id === project.id
@@ -40,7 +38,7 @@ export const ProjectsList = () => {
                 }
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(APP_PATHS.PROJECT_DETAILS.replace(':id', `${project.id}`));
+                  navigate(`${project.id}/${APP_PATHS.PROJECT_DETAILS}`);
                 }}
               >
                 View details <ChevronRight />
