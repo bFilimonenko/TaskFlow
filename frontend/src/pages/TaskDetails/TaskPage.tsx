@@ -1,0 +1,63 @@
+import { TaskDetails } from '@/components/TaskDetails/TaskDetails.tsx';
+import { type ITaskForm, TaskForm } from '@/components/TaskForm/TaskForm.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog.tsx';
+import { useProjects } from '@/contexts/ProjectsContext';
+import { Edit } from 'lucide-react';
+import { useState } from 'react';
+
+const TaskPage = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const { currentTask, updateTask } = useProjects();
+
+  if (!currentTask) return null;
+
+  return (
+    <div className="w-3/4 h-full relative">
+      <div className="flex flex-row mb-7">
+        <h2 className="font-bold text-xl">Task Details</h2>
+
+        <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
+          <DialogTrigger asChild>
+            <Button
+              className="absolute top-4 right-4 "
+              variant="secondary"
+              size="icon"
+              onClick={() => {
+                console.log('clicked');
+              }}
+            >
+              <Edit />
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-xl">Edit Task</DialogTitle>
+            </DialogHeader>
+            <div className="p-4">
+              <TaskForm
+                submitCallback={() => setDialogOpen(false)}
+                editValues={currentTask}
+                formAction={(values: ITaskForm) => {
+                  updateTask?.mutate({
+                    id: currentTask.id,
+                    values,
+                  });
+                }}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <TaskDetails />
+    </div>
+  );
+};
+export default TaskPage;

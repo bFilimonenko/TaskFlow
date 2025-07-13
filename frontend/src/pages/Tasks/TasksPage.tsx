@@ -6,7 +6,7 @@ const TasksPage = () => {
   const { currentProjectTasks } = useProjects();
 
   if (!currentProjectTasks) {
-    return <div>loading...</div>;
+    return <div>Loading...</div>;
   }
   return !currentProjectTasks.length ? <EmptyTasksList /> : <TasksList />;
 };

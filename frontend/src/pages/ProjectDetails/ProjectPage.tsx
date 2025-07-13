@@ -1,20 +1,34 @@
-import { AddTask } from '@/components/AddTask/AddTask.tsx';
+import { APP_PATHS } from '@/app-paths.enum.ts';
 import { ProjectDetails } from '@/components/ProjectDetails/ProjectDetails';
+import { type ITaskForm, TaskForm } from '@/components/TaskForm/TaskForm.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
-import TasksPage from '@/pages/Tasks/TasksPage.tsx';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const ProjectPage = () => {
   const navigate = useNavigate();
-  const { currentProject } = useProjects();
+  const { currentProject, createTask } = useProjects();
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  if (!currentProject) return null;
   return (
     <div>
-      <Button variant="link" className="justify-start text-accent" onClick={() => navigate(-1)}>
+      <Button
+        variant="link"
+        className="justify-start text-accent"
+        onClick={() =>
+          navigate(`/${APP_PATHS.PROJECTS}/${currentProject?.id}/${APP_PATHS.PROJECT_TASKS}`)
+        }
+      >
         <ArrowLeft /> Back to Projects
       </Button>
       <div className="w-full flex justify-between mb-6">
@@ -26,12 +40,25 @@ const ProjectPage = () => {
               Add Task
             </Button>
           </DialogTrigger>
-          <AddTask submitCallback={() => setDialogOpen(false)} />
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Task</DialogTitle>
+            </DialogHeader>
+            <TaskForm
+              formAction={(values: ITaskForm) => {
+                createTask?.mutate({
+                  id: currentProject?.id,
+                  values: values,
+                });
+              }}
+              submitCallback={() => setDialogOpen(false)}
+            />
+          </DialogContent>
         </Dialog>
       </div>
       <div className="flex gap-6">
         <ProjectDetails />
-        <TasksPage />
+        <Outlet />
       </div>
     </div>
   );

@@ -1,9 +1,15 @@
-import { createTaskRequest, getProjectRequest, getProjectsRequest } from '@/api';
+import {
+  createTaskRequest,
+  editTaskRequest,
+  getProjectRequest,
+  getProjectsRequest,
+  getTaskRequest,
+} from '@/api';
 import { createProjectRequest } from '@/api/projects/createProject.ts';
-import { editProjectRequest } from '@/api/projects/editProject.tsx';
+import { editProjectRequest } from '@/api/projects/editProject.ts';
 import { getProjectTasksRequest } from '@/api/projects/getProjectTasks.ts';
-import type { IAddTaskForm } from '@/components/AddTask/AddTask.tsx';
 import type { IProjectForm } from '@/components/ProjectForm/ProjectForm.tsx';
+import type { ITaskForm } from '@/components/TaskForm/TaskForm.tsx';
 import { ProjectsContext } from '@/contexts/ProjectsContext/context.tsx';
 import {
   useMutation,
@@ -17,7 +23,7 @@ import { toast } from 'react-toastify';
 
 export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
   const queryClient = useQueryClient();
-  const { projectId } = useParams();
+  const { projectId, taskId } = useParams();
 
   const { data: projects, isFetching } = useQuery({
     queryKey: ['projects'],
@@ -57,12 +63,29 @@ export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
     enabled: !!projectId,
   });
 
+  const { data: currentTask } = useQuery({
+    queryKey: ['currentTask', taskId],
+    queryFn: () => getTaskRequest(taskId),
+    enabled: !!taskId,
+  });
+
+  console.log(currentTask);
+
   const createTask = useMutation({
-    mutationFn: ({ id, values }: { id: number; values: IAddTaskForm }) =>
+    mutationFn: ({ id, values }: { id: number; values: ITaskForm }) =>
       createTaskRequest(id, values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentProjectTasks'] });
       toast.success('Add task successfully.');
+    },
+  });
+
+  const updateTask = useMutation({
+    mutationFn: ({ id, values }: { id: number; values: ITaskForm }) => editTaskRequest(id, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['currentTask', taskId] });
+      queryClient.invalidateQueries({ queryKey: ['currentProjectTasks'] });
+      toast.success('Update task successfully.');
     },
   });
 
@@ -75,7 +98,9 @@ export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
         updateProject,
         currentProject,
         currentProjectTasks,
+        currentTask,
         createTask,
+        updateTask,
       }}
     >
       {children}

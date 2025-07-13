@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Post,
   Request,
   SerializeOptions,
   UnauthorizedException,
@@ -74,6 +75,22 @@ export class UsersController {
   @ApiBearerAuth()
   findOne(@Param('id') id: number): Promise<GetUserDto | null> {
     return this.usersService.findOneByID(id);
+  }
+
+  @Post('/some')
+  @ApiOperation({
+    summary: 'Get many users by ids',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: GetUserDto,
+    isArray: true,
+  })
+  @SerializeOptions({ type: GetUserDto, excludeExtraneousValues: true })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  findSome(@Body() ids: number[]): Promise<GetUserDto[]> {
+    return this.usersService.findByIds(ids);
   }
 
   @Patch(':id')

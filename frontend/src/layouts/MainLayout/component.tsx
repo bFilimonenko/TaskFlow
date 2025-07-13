@@ -8,14 +8,14 @@ export const MainLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <EmployeesProvider>
-        <ProjectsProvider>
+      <ProjectsProvider>
+        <EmployeesProvider>
           <main className="w-full h-auto py-5 mr-10">
             {/*<SidebarTrigger />*/}
             <Outlet />
           </main>
-        </ProjectsProvider>
-      </EmployeesProvider>
+        </EmployeesProvider>
+      </ProjectsProvider>
     </SidebarProvider>
   );
 };

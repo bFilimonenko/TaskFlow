@@ -8,6 +8,7 @@ import LoginPage from '@/pages/Login/LoginPage.tsx';
 import ProjectPage from '@/pages/ProjectDetails/ProjectPage.tsx';
 import ProjectsPage from '@/pages/Projects/ProjectsPage.tsx';
 import SignupPage from '@/pages/Signup/SignupPage.tsx';
+import TaskPage from '@/pages/TaskDetails/TaskPage.tsx';
 import TasksPage from '@/pages/Tasks/TasksPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -33,13 +34,32 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: `:projectId/${APP_PATHS.PROJECT_TASKS}`,
-                element: <TasksPage />,
+                children: [
+                  {
+                    path: '',
+                    element: <TasksPage />,
+                  },
+                  {
+                    path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
+                    element: <TaskPage />,
+                  },
+                ],
               },
             ],
           },
           {
             path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
             element: <ProjectPage />,
+            children: [
+              {
+                path: '',
+                element: <TasksPage />,
+              },
+              {
+                path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
+                element: <TaskPage />,
+              },
+            ],
           },
           {
             path: APP_PATHS.ADD_PROJECT,

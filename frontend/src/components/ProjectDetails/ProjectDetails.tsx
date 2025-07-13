@@ -2,16 +2,10 @@ import { type IProjectForm, ProjectForm } from '@/components/ProjectForm/Project
 import { Button } from '@/components/ui/button.tsx';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
-import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
+import { PRIORITY, priorityColors } from '@/contexts/ProjectsContext/context.tsx';
 import { Calendar, Edit } from 'lucide-react';
 import { useState } from 'react';
 import { ScrollArea } from '../ui/scroll-area';
-
-const priorityColors: Record<PRIORITY, string> = {
-  [PRIORITY.LOW]: 'text-green-500',
-  [PRIORITY.MEDIUM]: 'text-yellow-500',
-  [PRIORITY.HIGH]: 'text-red-500',
-};
 
 export const ProjectDetails = () => {
   const { currentProject, updateProject } = useProjects();

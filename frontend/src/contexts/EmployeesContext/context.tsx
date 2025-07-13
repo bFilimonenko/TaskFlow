@@ -4,9 +4,11 @@ import { createContext } from 'react';
 type EmployeesContextType = {
   employees: User[] | null;
   employeesIsLoading: boolean;
+  currentEmployees: User[] | null;
 };
 
 export const EmployeesContext = createContext<EmployeesContextType>({
   employees: null,
   employeesIsLoading: true,
+  currentEmployees: null,
 });
