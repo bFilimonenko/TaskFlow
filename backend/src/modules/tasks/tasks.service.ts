@@ -17,11 +17,7 @@ export class TasksService {
   ) {}
 
   async findAll(): Promise<GetTaskDto[]> {
-    const tasks = await this.tasksRepository.find({ relations: ['users'] });
-    return tasks.map((task) => ({
-      ...task,
-      users: task.users.map((user) => user.id),
-    }));
+    return await this.tasksRepository.find({ relations: ['users'] });
   }
 
   async findOneById(@Param('id') id: number): Promise<GetTaskDto | null> {
@@ -33,10 +29,7 @@ export class TasksService {
       throw new NotFoundException('Task not found');
     }
 
-    return {
-      ...task,
-      users: task.users.map((user) => user.id),
-    };
+    return task
   }
 
   async create(projectId: number, taskDto: CreateTaskDto): Promise<GetTaskDto> {
@@ -51,12 +44,8 @@ export class TasksService {
       project,
       users,
     });
-    const savedTask = await this.tasksRepository.save(task);
 
-    return {
-      ...savedTask,
-      users: savedTask.users.map((user) => user.id),
-    };
+    return await this.tasksRepository.save(task);
   }
 
   async update(id: number, taskDto: UpdateTaskDto): Promise<UpdateResult> {

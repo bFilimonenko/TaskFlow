@@ -1,5 +1,6 @@
 import type { IProjectForm } from '@/components/ProjectForm/ProjectForm.tsx';
 import type { ITaskForm } from '@/components/TaskForm/TaskForm.tsx';
+import type { User } from '@/contexts/AuthContext/context.tsx';
 import type { UseMutationResult } from '@tanstack/react-query';
 import { createContext } from 'react';
 
@@ -31,7 +32,7 @@ export type Task = {
   priority: PRIORITY;
   estimate: number;
   deadLine: Date;
-  users: number[];
+  users: User[];
 };
 
 type ProjectsContextType = {

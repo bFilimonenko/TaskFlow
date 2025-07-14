@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsArray, IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { User } from '../../../entity/user.entity';
 
 export class TaskDto {
   @ApiProperty({
@@ -54,7 +55,7 @@ export class TaskDto {
   @IsArray()
   @IsNotEmpty()
   @Expose()
-  users: number[];
+  users: User[];
 
   @ApiProperty({
     description: 'Task description',

@@ -1,11 +1,9 @@
-import { useEmployees } from '@/contexts/EmployeesContext';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY, priorityColors } from '@/contexts/ProjectsContext/context.tsx';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 
 export const TaskDetails = () => {
   const { currentProject, currentTask } = useProjects();
-  const { currentEmployees } = useEmployees();
 
   if (!currentTask) return null;
 
@@ -21,14 +19,14 @@ export const TaskDetails = () => {
 
       <div>
         <span className="text-gray-400 text-sm">Priority</span>
-        <p className={priorityColors[currentProject?.priority as PRIORITY]}>
-          {currentProject?.priority}
+        <p className={priorityColors[currentTask.priority as PRIORITY]}>
+          {currentTask.priority}
         </p>
       </div>
       <div>
         <span className="text-gray-400 text-sm">Assigned</span>
         <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background ">
-          {currentEmployees?.map((employee) => (
+          {currentTask.users.map((employee) => (
             <Avatar className="size-8" key={employee.id}>
               <AvatarFallback>
                 {employee.firstName.charAt(0)}

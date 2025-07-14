@@ -30,12 +30,11 @@ export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
     queryFn: getProjectsRequest,
   });
 
-  const { data: currentProject, isFetching: isFetchingProject } = useQuery({
+  const { data: currentProject } = useQuery({
     queryKey: ['currentProject', projectId],
     queryFn: () => getProjectRequest(projectId),
     enabled: !!projectId,
   });
-  console.log(isFetchingProject);
 
   const createProject: UseMutationResult<any, Error, IProjectForm, unknown> | null = useMutation({
     mutationFn: createProjectRequest,
@@ -68,8 +67,6 @@ export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
     queryFn: () => getTaskRequest(taskId),
     enabled: !!taskId,
   });
-
-  console.log(currentTask);
 
   const createTask = useMutation({
     mutationFn: ({ id, values }: { id: number; values: ITaskForm }) =>

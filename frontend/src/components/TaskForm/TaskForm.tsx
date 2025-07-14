@@ -62,7 +62,6 @@ export const TaskForm = ({
     label: `${employee.firstName} ${employee.lastName}`,
     value: employee.id.toString(),
   }));
-  console.log(employeeOptions);
 
   useEffect(() => {
     if (editValues) {

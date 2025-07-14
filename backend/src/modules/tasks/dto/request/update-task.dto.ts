@@ -1,4 +1,5 @@
-import { OmitType, PartialType } from '@nestjs/swagger';
-import { TaskDto } from '../task.dto';
+import { PartialType } from '@nestjs/swagger';
+import { CreateTaskDto } from './create-task.dto';
 
-export class UpdateTaskDto extends PartialType(OmitType(TaskDto, ['id', 'projectId'])) {}
+export class UpdateTaskDto extends PartialType(CreateTaskDto) {
+}

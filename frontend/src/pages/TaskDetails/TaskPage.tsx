@@ -1,13 +1,7 @@
 import { TaskDetails } from '@/components/TaskDetails/TaskDetails.tsx';
 import { type ITaskForm, TaskForm } from '@/components/TaskForm/TaskForm.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog.tsx';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
@@ -29,9 +23,6 @@ const TaskPage = () => {
               className="absolute top-4 right-4 "
               variant="secondary"
               size="icon"
-              onClick={() => {
-                console.log('clicked');
-              }}
             >
               <Edit />
             </Button>
@@ -44,7 +35,10 @@ const TaskPage = () => {
             <div className="p-4">
               <TaskForm
                 submitCallback={() => setDialogOpen(false)}
-                editValues={currentTask}
+                editValues={{
+                  ...currentTask,
+                  users: currentTask.users.map((user) => user.id),
+                }}
                 formAction={(values: ITaskForm) => {
                   updateTask?.mutate({
                     id: currentTask.id,

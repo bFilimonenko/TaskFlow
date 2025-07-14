@@ -38,10 +38,7 @@ export class ProjectsService {
       throw new NotFoundException(`Project not found`);
     }
 
-    return project.tasks.map((task) => ({
-      ...task,
-      users: task.users.map((user) => user.id),
-    }));
+    return project.tasks.map((task) => task);
   }
 
   async create(project: CreateProjectDto): Promise<ProjectDto> {
