@@ -30,6 +30,11 @@ export class CreateTasks1751446658622 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'status',
+            type: 'varchar',
+            default: 'To Do',
+          },
+          {
             name: 'description',
             type: 'varchar',
             isNullable: true,

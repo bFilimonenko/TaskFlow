@@ -16,6 +16,20 @@ export const priorityColors: Record<PRIORITY, string> = {
   [PRIORITY.HIGH]: 'text-red-500',
 };
 
+export enum STATUS {
+  TO_DO = 'To Do',
+  IN_PROGRESS = 'In Progress',
+  IN_REVIEW = 'In Review',
+  DONE = 'Done',
+}
+
+export const statusColors: Record<STATUS, string> = {
+  [STATUS.TO_DO]: 'text-gray-600 bg-gray-600/10',
+  [STATUS.IN_PROGRESS]: 'text-blue-500 bg-blue-500/10',
+  [STATUS.IN_REVIEW]: 'text-purple-600 bg-purple-600/10',
+  [STATUS.DONE]: 'text-green-500 bg-green-500/10',
+};
+
 export type Project = {
   id: number;
   projectName: string;
@@ -30,6 +44,7 @@ export type Task = {
   taskName: string;
   description?: string;
   priority: PRIORITY;
+  status: STATUS;
   estimate: number;
   deadLine: Date;
   users: User[];

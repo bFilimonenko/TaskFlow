@@ -7,6 +7,7 @@ export class CreateTaskDto extends PickType(TaskDto, [
   'estimate',
   'deadLine',
   'priority',
+  'status',
   'description',
 ]) {
   @ApiProperty({ type: [Number] })

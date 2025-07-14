@@ -19,6 +19,9 @@ export class Tasks {
   @Column()
   priority: string;
 
+  @Column({ default: 'To Do' })
+  status: string;
+
   @ManyToMany(() => User, (user) => user.tasks)
   @JoinTable({ name: 'tasks_users' })
   users: User[];

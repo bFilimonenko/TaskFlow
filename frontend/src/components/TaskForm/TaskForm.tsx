@@ -17,7 +17,7 @@ import {
 import { Textarea } from '@/components/ui/textarea.tsx';
 import { useEmployees } from '@/contexts/EmployeesContext';
 import { useProjects } from '@/contexts/ProjectsContext';
-import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
+import { PRIORITY, STATUS } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
@@ -31,6 +31,7 @@ export interface ITaskForm {
   estimate: number | undefined;
   deadLine: Date | undefined;
   users: number[];
+  status: STATUS;
 }
 
 export const addTaskSchema = Yup.object().shape({
@@ -81,6 +82,7 @@ export const TaskForm = ({
               estimate: undefined,
               deadLine: undefined,
               users: [],
+              status: STATUS.TO_DO,
             }
       }
       validationSchema={addTaskSchema}

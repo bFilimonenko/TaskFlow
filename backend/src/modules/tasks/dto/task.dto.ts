@@ -49,6 +49,15 @@ export class TaskDto {
   priority: string;
 
   @ApiProperty({
+    description: 'Task status',
+    example: 'In progress',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  status: string = 'To Do';
+
+  @ApiProperty({
     description: 'Users id',
     example: [1, 2, 3],
   })
