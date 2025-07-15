@@ -1,3 +1,4 @@
+import { APP_PATHS } from '@/app-paths.enum.ts';
 import {
   Sidebar,
   SidebarContent,
@@ -10,6 +11,7 @@ import {
 import { NAVIGATION } from '@/layouts/MainLayout/constants.ts';
 import { LogOut } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
+import mainLogo from '/task-flow-logo.svg';
 
 export const AppSidebar = () => {
   const location = useLocation();
@@ -17,7 +19,7 @@ export const AppSidebar = () => {
   return (
     <Sidebar variant="floating">
       <SidebarHeader>
-        <img src="src/assets/task-flow-logo.svg" alt="company logo" width={50} height={50} />
+        <img src={mainLogo} alt="company logo" width={50} height={50} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -35,7 +37,7 @@ export const AppSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenuButton asChild>
-          <NavLink to="/logout">
+          <NavLink to={APP_PATHS.LOGIN} onClick={() => localStorage.clear()}>
             <LogOut />
             <span>Logout</span>
           </NavLink>

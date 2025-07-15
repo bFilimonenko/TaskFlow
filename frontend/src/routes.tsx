@@ -1,13 +1,14 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import { AddProject } from '@/components/AddProject/AddProject.tsx';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
+import AddProjectPage from '@/pages/AddProject/AddProjectPage.tsx';
 import EmployeesPage from '@/pages/Employees/EmployeesPage.tsx';
 import HomePage from '@/pages/Home/HomePage.tsx';
 import LoginPage from '@/pages/Login/LoginPage.tsx';
 import ProjectPage from '@/pages/ProjectDetails/ProjectPage.tsx';
 import ProjectsPage from '@/pages/Projects/ProjectsPage.tsx';
 import SignupPage from '@/pages/Signup/SignupPage.tsx';
+import TaskPage from '@/pages/TaskDetails/TaskPage.tsx';
 import TasksPage from '@/pages/Tasks/TasksPage.tsx';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -32,18 +33,37 @@ export const router = createBrowserRouter([
             element: <ProjectsPage />,
             children: [
               {
-                path: APP_PATHS.PROJECT_TASKS,
+                path: `:projectId/${APP_PATHS.PROJECT_TASKS}`,
+                children: [
+                  {
+                    path: '',
+                    element: <TasksPage />,
+                  },
+                  {
+                    path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
+                    element: <TaskPage />,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
+            element: <ProjectPage />,
+            children: [
+              {
+                path: '',
                 element: <TasksPage />,
+              },
+              {
+                path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
+                element: <TaskPage />,
               },
             ],
           },
           {
             path: APP_PATHS.ADD_PROJECT,
-            element: <AddProject />,
-          },
-          {
-            path: APP_PATHS.PROJECT_DETAILS,
-            element: <ProjectPage />,
+            element: <AddProjectPage />,
           },
         ],
       },

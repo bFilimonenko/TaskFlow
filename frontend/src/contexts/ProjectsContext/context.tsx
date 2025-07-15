@@ -1,13 +1,20 @@
-import type { IAddProjectForm } from '@/components/AddProject/AddProject.tsx';
-import type { IAddTaskForm } from '@/components/AddTask/AddTask.tsx';
+import type { IProjectForm } from '@/components/ProjectForm/ProjectForm.tsx';
+import type { ITaskForm } from '@/components/TaskForm/TaskForm.tsx';
+import type { User } from '@/contexts/AuthContext/context.tsx';
 import type { UseMutationResult } from '@tanstack/react-query';
-import { createContext, type Dispatch, type SetStateAction } from 'react';
+import { createContext } from 'react';
 
 export enum PRIORITY {
   LOW = 'Low',
   MEDIUM = 'Medium',
   HIGH = 'High',
 }
+
+export const priorityColors: Record<PRIORITY, string> = {
+  [PRIORITY.LOW]: 'text-green-500',
+  [PRIORITY.MEDIUM]: 'text-yellow-500',
+  [PRIORITY.HIGH]: 'text-red-500',
+};
 
 export type Project = {
   id: number;
@@ -25,27 +32,34 @@ export type Task = {
   priority: PRIORITY;
   estimate: number;
   deadLine: Date;
-  users: number[];
+  users: User[];
 };
 
 type ProjectsContextType = {
   projects: Project[];
   isLoading: boolean;
-  createProject: UseMutationResult<any, Error, IAddProjectForm, unknown> | null;
+  createProject: UseMutationResult<any, Error, IProjectForm, unknown> | null;
+  updateProject: UseMutationResult<
+    any,
+    Error,
+    { id: number; values: IProjectForm },
+    unknown
+  > | null;
   currentProject: Project | null;
-  setCurrentProject: Dispatch<SetStateAction<Project | null>>;
-  getProjectTasks: UseMutationResult<any, Error, any, unknown> | null;
   currentProjectTasks: Task[];
-  createTask: UseMutationResult<any, Error, { id: number; values: IAddTaskForm }, unknown> | null;
+  currentTask: Task | null;
+  createTask: UseMutationResult<any, Error, { id: number; values: ITaskForm }, unknown> | null;
+  updateTask: UseMutationResult<any, Error, { id: number; values: ITaskForm }, unknown> | null;
 };
 
 export const ProjectsContext = createContext<ProjectsContextType>({
   projects: [],
   isLoading: true,
   createProject: null,
+  updateProject: null,
   currentProject: null,
-  setCurrentProject: () => null,
-  getProjectTasks: null,
   currentProjectTasks: [],
+  currentTask: null,
   createTask: null,
+  updateTask: null,
 });

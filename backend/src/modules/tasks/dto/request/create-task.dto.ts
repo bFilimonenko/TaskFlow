@@ -1,4 +1,5 @@
-import { PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsArray, IsInt } from 'class-validator';
 import { TaskDto } from '../task.dto';
 
 export class CreateTaskDto extends PickType(TaskDto, [
@@ -6,6 +7,10 @@ export class CreateTaskDto extends PickType(TaskDto, [
   'estimate',
   'deadLine',
   'priority',
-  'users',
   'description',
-]) {}
+]) {
+  @ApiProperty({ type: [Number] })
+  @IsArray()
+  @IsInt({ each: true })
+  users: number[];
+}

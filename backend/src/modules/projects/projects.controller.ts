@@ -69,10 +69,7 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => ProjectDto,
   })
-  update(
-    @Param('id') id: number,
-    @Body() updateProjectDto: UpdateProjectDto,
-  ): Promise<UpdateResult> {
+  update(@Param('id') id: number, @Body() updateProjectDto: UpdateProjectDto): Promise<ProjectDto> {
     return this.projectsService.update(id, updateProjectDto);
   }
 

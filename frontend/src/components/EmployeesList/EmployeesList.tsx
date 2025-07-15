@@ -9,8 +9,8 @@ export const EmployeesList = () => {
   }
   return (
     <div className="grid gap-5">
-      {employees.map((employee) => (
-        <EmployeeCard employee={employee} />
+      {employees.map((employee, index) => (
+        <EmployeeCard key={index} employee={employee} />
       ))}
     </div>
   );
