@@ -9,6 +9,7 @@ export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (userLoading) return;
+
     if (!isAuth) {
       navigate(APP_PATHS.LOGIN);
     }

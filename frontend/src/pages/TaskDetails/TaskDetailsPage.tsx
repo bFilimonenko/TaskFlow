@@ -12,7 +12,7 @@ import { useProjects } from '@/contexts/ProjectsContext';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 
-const TaskPage = () => {
+const TaskDetailsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { currentTask, updateTask } = useProjects();
 
@@ -56,4 +56,5 @@ const TaskPage = () => {
     </div>
   );
 };
-export default TaskPage;
+
+export default TaskDetailsPage;

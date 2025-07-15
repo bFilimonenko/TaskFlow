@@ -14,7 +14,7 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-const ProjectPage = () => {
+const ProjectDetailsPage = () => {
   const navigate = useNavigate();
   const { currentProject, createTask } = useProjects();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -64,4 +64,4 @@ const ProjectPage = () => {
   );
 };
 
-export default ProjectPage;
+export default ProjectDetailsPage;

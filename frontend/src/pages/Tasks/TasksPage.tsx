@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog.tsx';
-import { ScrollArea } from '@/components/ui/scroll-area.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { Filter } from 'lucide-react';
 import { useState } from 'react';
@@ -48,9 +47,8 @@ const TasksPage = () => {
           <DialogHeader>
             <DialogTitle className="text-xl">Filter</DialogTitle>
           </DialogHeader>
-          <ScrollArea className="h-[400px]">
-            <FilterTasks submitCallback={() => setDialogOpen(false)} />
-          </ScrollArea>
+
+          <FilterTasks submitCallback={() => setDialogOpen(false)} />
         </DialogContent>
       </Dialog>
 

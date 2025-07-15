@@ -1,16 +1,19 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
-import AddProjectPage from '@/pages/AddProject/AddProjectPage.tsx';
-import EmployeesPage from '@/pages/Employees/EmployeesPage.tsx';
-import HomePage from '@/pages/Home/HomePage.tsx';
-import LoginPage from '@/pages/Login/LoginPage.tsx';
-import ProjectPage from '@/pages/ProjectDetails/ProjectPage.tsx';
-import ProjectsPage from '@/pages/Projects/ProjectsPage.tsx';
-import SignupPage from '@/pages/Signup/SignupPage.tsx';
-import TaskPage from '@/pages/TaskDetails/TaskPage.tsx';
-import TasksPage from '@/pages/Tasks/TasksPage.tsx';
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+
+const AddProjectPage = lazy(() => import('@/pages/AddProject/AddProjectPage.tsx'));
+const EmployeesPage = lazy(() => import('@/pages/Employees/EmployeesPage.tsx'));
+const HomePage = lazy(() => import('@/pages/Home/HomePage.tsx'));
+const LoginPage = lazy(() => import('@/pages/Login/LoginPage.tsx'));
+const ProjectDetailsPage = lazy(() => import('@/pages/ProjectDetails/ProjectDetailsPage.tsx'));
+const ProjectsPage = lazy(() => import('@/pages/Projects/ProjectsPage.tsx'));
+const SignupPage = lazy(() => import('@/pages/Signup/SignupPage.tsx'));
+const TaskDetailsPage = lazy(() => import('@/pages/TaskDetails/TaskDetailsPage.tsx'));
+const TasksPage = lazy(() => import('@/pages/Tasks/TasksPage.tsx'));
+const UsersProfilePage = lazy(() => import('@/pages/UsersProfile/UsersProfilePage.tsx'));
 
 export const router = createBrowserRouter([
   {
@@ -41,7 +44,7 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
-                    element: <TaskPage />,
+                    element: <TaskDetailsPage />,
                   },
                 ],
               },
@@ -49,7 +52,7 @@ export const router = createBrowserRouter([
           },
           {
             path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
-            element: <ProjectPage />,
+            element: <ProjectDetailsPage />,
             children: [
               {
                 path: '',
@@ -57,7 +60,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
-                element: <TaskPage />,
+                element: <TaskDetailsPage />,
               },
             ],
           },
@@ -68,16 +71,12 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: APP_PATHS.CALENDAR,
-        element: <>CALENDAR</>,
-      },
-      {
         path: APP_PATHS.EMPLOYEES,
         element: <EmployeesPage />,
       },
       {
-        path: APP_PATHS.SETTINGS,
-        element: <>SETTINGS</>,
+        path: APP_PATHS.MY_PROFILE,
+        element: <UsersProfilePage />,
       },
       {
         path: '/*',

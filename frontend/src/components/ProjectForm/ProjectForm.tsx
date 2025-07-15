@@ -13,7 +13,6 @@ import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Calendar } from '../ui/calendar';
@@ -44,24 +43,17 @@ export const ProjectForm = ({
   formAction: (values: IProjectForm, id?: number) => void;
   submitCallback?: () => void;
 }) => {
-  const [openStartDate, setOpenStartDate] = useState(false);
-  const [openDeadLineDate, setOpenDeadLineDate] = useState(false);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [deadLineDate, setDeadLineDate] = useState<Date | undefined>(undefined);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (editValues) {
-      setStartDate(new Date(`${editValues.starts}`));
-      setDeadLineDate(new Date(`${editValues.deadLine}`));
-    }
-  }, []);
 
   return (
     <Formik<IProjectForm>
       initialValues={
         editValues
-          ? { ...editValues }
+          ? {
+              ...editValues,
+              starts: new Date(`${editValues.starts}`),
+              deadLine: new Date(`${editValues.deadLine}`),
+            }
           : {
               projectName: '',
               description: '',
@@ -77,7 +69,7 @@ export const ProjectForm = ({
         navigate(-1);
       }}
     >
-      {({ handleSubmit, values }) => (
+      {({ handleSubmit, values, setFieldValue }) => (
         <form onSubmit={handleSubmit} className={cn('flex flex-col gap-6')}>
           <div className="grid gap-6 items-start">
             <div className="grid gap-3">
@@ -93,27 +85,23 @@ export const ProjectForm = ({
                 <div className="flex items-center">
                   <Label htmlFor="starts">Start Date *</Label>
                 </div>
-                <Popover open={openStartDate} onOpenChange={setOpenStartDate}>
+                <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       id="starts"
                       className="w-48 justify-between font-normal hover:bg-blue-100"
                     >
-                      {startDate ? startDate.toLocaleDateString() : 'Select Date'}
+                      {values.starts ? values.starts.toLocaleDateString() : 'Select Date'}
                       <CalendarIcon />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={startDate}
+                      selected={values.starts}
                       captionLayout="dropdown"
-                      onSelect={(date: IProjectForm['starts']) => {
-                        values.starts = date;
-                        setStartDate(date);
-                        setOpenStartDate(false);
-                      }}
+                      onSelect={(date: IProjectForm['starts']) => setFieldValue('starts', date)}
                     />
                   </PopoverContent>
                 </Popover>
@@ -123,27 +111,23 @@ export const ProjectForm = ({
                 <div className="flex items-center">
                   <Label htmlFor="deadLine">Dead Line *</Label>
                 </div>
-                <Popover open={openDeadLineDate} onOpenChange={setOpenDeadLineDate}>
+                <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       id="deadLine"
                       className="w-48 justify-between font-normal hover:bg-blue-100"
                     >
-                      {deadLineDate ? deadLineDate.toLocaleDateString() : 'Select Date'}
+                      {values.deadLine ? values.deadLine.toLocaleDateString() : 'Select Date'}
                       <CalendarIcon />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={deadLineDate}
+                      selected={values.deadLine}
                       captionLayout="dropdown"
-                      onSelect={(date: IProjectForm['deadLine']) => {
-                        values.deadLine = date;
-                        setDeadLineDate(date);
-                        setOpenDeadLineDate(false);
-                      }}
+                      onSelect={(date: IProjectForm['deadLine']) => setFieldValue('deadLine', date)}
                     />
                   </PopoverContent>
                 </Popover>
@@ -159,12 +143,10 @@ export const ProjectForm = ({
                 {() => (
                   <Select
                     defaultValue={editValues ? editValues.priority : undefined}
-                    onValueChange={(newValue: PRIORITY) => {
-                      values.priority = newValue;
-                    }}
+                    onValueChange={(newValue: PRIORITY) => setFieldValue('priority', newValue)}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue />
+                      <SelectValue placeholder="Select priority" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value={PRIORITY.LOW}>Low</SelectItem>

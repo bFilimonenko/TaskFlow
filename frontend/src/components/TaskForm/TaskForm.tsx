@@ -21,7 +21,7 @@ import { PRIORITY, STATUS } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
 import { ErrorMessage, Field, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import * as Yup from 'yup';
 
 export interface ITaskForm {
@@ -52,29 +52,28 @@ export const TaskForm = ({
   formAction: (values: ITaskForm, id?: number) => void;
   submitCallback?: () => void;
 }) => {
-  const [openDeadLineDate, setOpenDeadLineDate] = useState(false);
-  const [deadLineDate, setDeadLineDate] = useState<Date | undefined>(undefined);
   const { currentProject } = useProjects();
   const { employees } = useEmployees();
 
   if (!currentProject) return null;
 
-  const employeeOptions: Option[] | undefined = employees?.map((employee) => ({
-    label: `${employee.firstName} ${employee.lastName}`,
-    value: employee.id.toString(),
-  }));
+  const employeeOptions: Option[] | undefined = useMemo(() => {
+    if (!employees) return undefined;
 
-  useEffect(() => {
-    if (editValues) {
-      setDeadLineDate(new Date(`${editValues.deadLine}`));
-    }
-  }, []);
+    return employees.map((employee) => ({
+      label: `${employee.firstName} ${employee.lastName}`,
+      value: employee.id.toString(),
+    }));
+  }, [employees]);
 
   return (
     <Formik<ITaskForm>
       initialValues={
         editValues
-          ? { ...editValues }
+          ? {
+              ...editValues,
+              deadLine: new Date(`${editValues.deadLine}`),
+            }
           : {
               taskName: '',
               description: '',
@@ -91,7 +90,7 @@ export const TaskForm = ({
         if (submitCallback) return submitCallback();
       }}
     >
-      {({ handleSubmit, values }) => (
+      {({ handleSubmit, values, setFieldValue }) => (
         <form onSubmit={handleSubmit} className={cn('flex flex-col gap-6')}>
           <ScrollArea className="h-[400px]">
             <div className="m-2">
@@ -122,27 +121,25 @@ export const TaskForm = ({
                     <div className="flex items-center">
                       <Label htmlFor="deadLine">Dead Line *</Label>
                     </div>
-                    <Popover open={openDeadLineDate} onOpenChange={setOpenDeadLineDate}>
+                    <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           id="deadLine"
                           className="w-48 justify-between font-normal hover:bg-blue-100"
                         >
-                          {deadLineDate ? deadLineDate.toLocaleDateString() : 'Select Date'}
+                          {values.deadLine ? values.deadLine.toLocaleDateString() : 'Select Date'}
                           <CalendarIcon />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                         <Calendar
                           mode="single"
-                          selected={deadLineDate}
+                          selected={values.deadLine}
                           captionLayout="dropdown"
-                          onSelect={(date: IProjectForm['deadLine']) => {
-                            values.deadLine = date;
-                            setDeadLineDate(date);
-                            setOpenDeadLineDate(false);
-                          }}
+                          onSelect={(date: IProjectForm['deadLine']) =>
+                            setFieldValue('deadLine', date)
+                          }
                         />
                       </PopoverContent>
                     </Popover>
@@ -158,12 +155,10 @@ export const TaskForm = ({
                     {() => (
                       <Select
                         defaultValue={editValues ? editValues.priority : undefined}
-                        onValueChange={(newValue: PRIORITY) => {
-                          values.priority = newValue;
-                        }}
+                        onValueChange={(newValue: PRIORITY) => setFieldValue('priority', newValue)}
                       >
                         <SelectTrigger className="w-full">
-                          <SelectValue />
+                          <SelectValue placeholder="Select priority" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value={PRIORITY.LOW}>Low</SelectItem>
@@ -190,9 +185,12 @@ export const TaskForm = ({
                             no results found.
                           </p>
                         }
-                        onChange={(newValue) => {
-                          values.users = newValue.map((option) => Number(option.value));
-                        }}
+                        onChange={(newValue) =>
+                          setFieldValue(
+                            'users',
+                            newValue.map((option) => Number(option.value)),
+                          )
+                        }
                       />
                     )}
                   </Field>

@@ -1,5 +1,5 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import { Calendar, Home, Layers, Settings, Users } from 'lucide-react';
+import { Home, Layers, Users } from 'lucide-react';
 
 export const NAVIGATION = [
   {
@@ -13,18 +13,8 @@ export const NAVIGATION = [
     icon: Layers,
   },
   {
-    title: 'Calendar',
-    url: APP_PATHS.CALENDAR,
-    icon: Calendar,
-  },
-  {
     title: 'Employees',
     url: APP_PATHS.EMPLOYEES,
     icon: Users,
-  },
-  {
-    title: 'Settings',
-    url: APP_PATHS.SETTINGS,
-    icon: Settings,
   },
 ];

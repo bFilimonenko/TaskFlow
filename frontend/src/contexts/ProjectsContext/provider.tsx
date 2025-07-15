@@ -27,7 +27,6 @@ export const ProjectsProvider: FC<PropsWithChildren> = ({ children }) => {
   const queryClient = useQueryClient();
   const { projectId, taskId } = useParams();
   const [taskFilters, setTaskFilters] = useState<IFilterForm>({});
-  console.log(Object.values(taskFilters).filter(Boolean));
 
   const { data: projects, isFetching } = useQuery({
     queryKey: ['projects'],
