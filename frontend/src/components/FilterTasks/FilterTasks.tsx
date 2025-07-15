@@ -4,19 +4,12 @@ import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import MultipleSelector, { type Option } from '@/components/ui/multiple-selector.tsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useEmployees } from '@/contexts/EmployeesContext';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY, STATUS } from '@/contexts/ProjectsContext/context';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { CalendarIcon } from 'lucide-react';
-import { useState } from 'react';
 
 export interface IFilterForm {
   deadLine?: Date;
@@ -29,8 +22,6 @@ export interface IFilterForm {
 export const FilterTasks = ({ submitCallback }: { submitCallback: () => void }) => {
   const { taskFilters, setTaskFilters, refetchProjectTasks } = useProjects();
   const { employees, setEmployeeIdsToFetch, selectedEmployees } = useEmployees();
-  const [openDeadLineDate, setOpenDeadLineDate] = useState(false);
-  const [deadLineDate, setDeadLineDate] = useState<Date | undefined>(taskFilters.deadLine);
 
   const employeeOptions: Option[] | undefined = employees?.map((employee) => ({
     label: `${employee.firstName} ${employee.lastName}`,
@@ -43,55 +34,41 @@ export const FilterTasks = ({ submitCallback }: { submitCallback: () => void }) 
   }));
 
   const handleSubmit = (values: IFilterForm) => {
-    const filters = {
-      deadLine: values.deadLine || undefined,
-      estimate: values.estimate || undefined,
-      priority: values.priority || undefined,
-      status: values.status || undefined,
-      users: values.users || undefined,
-    };
-
-    setTaskFilters(filters);
-    if (filters.users) setEmployeeIdsToFetch(filters.users);
-    setDeadLineDate(filters.deadLine);
+    setTaskFilters(values);
+    if (values.users) setEmployeeIdsToFetch(values.users);
     refetchProjectTasks();
     submitCallback();
   };
 
   return (
     <Formik<IFilterForm>
-      initialValues={{
-        ...taskFilters,
-      }}
+      initialValues={taskFilters}
       onSubmit={handleSubmit}
     >
-      {({ setFieldValue, resetForm }) => (
+      {({ setFieldValue, resetForm, values }) => (
         <Form className="grid gap-5 items-center mb-4 p-3">
           <div className="grid gap-3">
             <div className="flex items-center">
               <Label htmlFor="deadLine">Period</Label>
             </div>
-            <Popover open={openDeadLineDate} onOpenChange={setOpenDeadLineDate}>
+            <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   id="deadLine"
                   className="w-auto justify-between font-normal hover:bg-blue-100"
                 >
-                  {deadLineDate ? deadLineDate.toLocaleDateString() : 'Select Date'}
+                  {values.deadLine ? values.deadLine.toLocaleDateString() : 'Select Date'}
                   <CalendarIcon />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={deadLineDate}
+                  selected={values.deadLine}
                   captionLayout="dropdown"
                   onSelect={(date: Date | undefined) => {
-                    if (!date) return;
                     setFieldValue('deadLine', date);
-                    setDeadLineDate(date);
-                    setOpenDeadLineDate(false);
                   }}
                 />
               </PopoverContent>
@@ -171,7 +148,8 @@ export const FilterTasks = ({ submitCallback }: { submitCallback: () => void }) 
             <div className="flex items-center">
               <Label htmlFor="users">Assignees</Label>
             </div>
-            <Field name="users" id="users" defaultValue={() => {}}>
+            <Field name="users" id="users" defaultValue={() => {
+            }}>
               {() => (
                 <MultipleSelector
                   value={selectedEmployeesOptions}
