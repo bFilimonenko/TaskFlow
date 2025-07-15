@@ -1,3 +1,4 @@
+import type { IFilterForm } from '@/components/FilterTasks/FilterTasks.tsx';
 import type { IProjectForm } from '@/components/ProjectForm/ProjectForm.tsx';
 import type { ITaskForm } from '@/components/TaskForm/TaskForm.tsx';
 import type { User } from '@/contexts/AuthContext/context.tsx';
@@ -62,9 +63,12 @@ type ProjectsContextType = {
   > | null;
   currentProject: Project | null;
   currentProjectTasks: Task[];
+  refetchProjectTasks: () => void;
   currentTask: Task | null;
   createTask: UseMutationResult<any, Error, { id: number; values: ITaskForm }, unknown> | null;
   updateTask: UseMutationResult<any, Error, { id: number; values: ITaskForm }, unknown> | null;
+  taskFilters: IFilterForm;
+  setTaskFilters: (filters: IFilterForm) => void;
 };
 
 export const ProjectsContext = createContext<ProjectsContextType>({
@@ -74,7 +78,10 @@ export const ProjectsContext = createContext<ProjectsContextType>({
   updateProject: null,
   currentProject: null,
   currentProjectTasks: [],
+  refetchProjectTasks: () => null,
   currentTask: null,
   createTask: null,
   updateTask: null,
+  taskFilters: {},
+  setTaskFilters: () => null,
 });

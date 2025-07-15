@@ -1,6 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UpdateResult } from 'typeorm';
+import { FilterTaskDto } from '../tasks/dto/request/filter-task.dto';
 import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
 import { CreateProjectDto } from './dto/request/create-project.dto';
@@ -47,6 +57,22 @@ export class ProjectsController {
   })
   findProjectTasks(@Param('id') id: number): Promise<GetTaskDto[] | null> {
     return this.projectsService.getTasksById(id);
+  }
+
+  @Get(':id/tasks/filter')
+  @ApiOperation({
+    summary: 'Task filter',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: () => GetTaskDto,
+    isArray: true,
+  })
+  async getFilteredTasks(
+    @Param('id') projectId: number,
+    @Query() filters: FilterTaskDto,
+  ): Promise<GetTaskDto[]> {
+    return this.projectsService.findTasksWithFilters(projectId, filters);
   }
 
   @Post()
