@@ -11,7 +11,6 @@ export const MainLayout = () => {
       <ProjectsProvider>
         <EmployeesProvider>
           <main className="w-full h-auto py-5 mr-10">
-            {/*<SidebarTrigger />*/}
             <Outlet />
           </main>
         </EmployeesProvider>

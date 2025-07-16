@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/contexts/AuthContext';
 import { NAVIGATION } from '@/layouts/MainLayout/constants.ts';
@@ -21,6 +22,7 @@ export const AppSidebar = () => {
 
   return (
     <Sidebar variant="floating">
+      <SidebarTrigger className="absolute -right-7 top-5 pl-2 w-10 border-l-0 rounded-l-none bg-sidebar hover:bg-blue-200" />
       <SidebarHeader>
         <img src={mainLogo} alt="company logo" width={50} height={50} />
       </SidebarHeader>

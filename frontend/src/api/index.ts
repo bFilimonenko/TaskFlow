@@ -1,5 +1,5 @@
+import { refreshTokenRequest } from '@/api/auth/refreshToken.ts';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -10,8 +10,25 @@ instance.interceptors.response.use(
   function (response) {
     return response;
   },
-  function (error) {
-    toast.error(error.response.data.message, { toastId: error.status });
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const response = await refreshTokenRequest();
+        const { accessToken, refreshToken: newRefreshToken } = response.data;
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', newRefreshToken);
+        instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        return instance(originalRequest);
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
     return Promise.reject(error);
   },
 );

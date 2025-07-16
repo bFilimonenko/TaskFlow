@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -8,8 +9,11 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { FilterTaskDto } from '../tasks/dto/request/filter-task.dto';
 import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
@@ -17,6 +21,7 @@ import { CreateProjectDto } from './dto/request/create-project.dto';
 import { UpdateProjectDto } from './dto/request/update-project.dto';
 import { ProjectsService } from './projects.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('projects')
 @ApiTags('Projects')
 export class ProjectsController {
@@ -31,6 +36,8 @@ export class ProjectsController {
     type: () => ProjectDto,
     isArray: true,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findAll(): Promise<ProjectDto[]> {
     return this.projectsService.findAll();
   }
@@ -43,6 +50,8 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => ProjectDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findOne(@Param('id') id: number): Promise<ProjectDto | null> {
     return this.projectsService.getOneById(id);
   }
@@ -55,6 +64,8 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => GetTaskDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findProjectTasks(@Param('id') id: number): Promise<GetTaskDto[] | null> {
     return this.projectsService.getTasksById(id);
   }
@@ -68,7 +79,9 @@ export class ProjectsController {
     type: () => GetTaskDto,
     isArray: true,
   })
-  async getFilteredTasks(
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  getFilteredTasks(
     @Param('id') projectId: number,
     @Query() filters: FilterTaskDto,
   ): Promise<GetTaskDto[]> {
@@ -83,6 +96,8 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => ProjectDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   createProject(@Body() createProjectDto: CreateProjectDto): Promise<ProjectDto> {
     return this.projectsService.create(createProjectDto);
   }
@@ -95,6 +110,8 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => ProjectDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateProjectDto: UpdateProjectDto): Promise<ProjectDto> {
     return this.projectsService.update(id, updateProjectDto);
   }
@@ -103,6 +120,8 @@ export class ProjectsController {
   @ApiOperation({
     summary: 'Delete a project',
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number): Promise<void> {
     return this.projectsService.remove(id);
   }

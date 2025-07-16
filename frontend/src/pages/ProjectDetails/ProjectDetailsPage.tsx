@@ -31,7 +31,7 @@ const ProjectDetailsPage = () => {
       >
         <ArrowLeft /> Back to Projects
       </Button>
-      <div className="w-full flex justify-between mb-6">
+      <div className="w-auto flex justify-between mb-6 ml-10">
         <h1 className="text-4xl font-bold ">{currentProject?.projectName}</h1>
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
           <DialogTrigger asChild>

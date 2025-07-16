@@ -1,11 +1,25 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
+import { AuthGuard } from '../auth/auth.guard';
 import { CreateTaskDto } from './dto/request/create-task.dto';
 import { UpdateTaskDto } from './dto/request/update-task.dto';
 import { TaskDto } from './dto/task.dto';
 import { TasksService } from './tasks.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('tasks')
 @ApiTags('Tasks')
 export class TasksController {
@@ -20,6 +34,8 @@ export class TasksController {
     type: () => TaskDto,
     isArray: true,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findAll(): Promise<TaskDto[]> {
     return this.tasksService.findAll();
   }
@@ -32,6 +48,8 @@ export class TasksController {
     status: HttpStatus.OK,
     type: () => TaskDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   findOne(@Param('id') id: number): Promise<TaskDto | null> {
     return this.tasksService.findOneById(id);
   }
@@ -44,6 +62,8 @@ export class TasksController {
     status: HttpStatus.OK,
     type: () => TaskDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   createTask(
     @Param('id') projectId: number,
     @Body() createTaskDto: CreateTaskDto,
@@ -59,6 +79,8 @@ export class TasksController {
     status: HttpStatus.OK,
     type: () => TaskDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto): Promise<UpdateResult> {
     return this.tasksService.update(id, updateTaskDto);
   }
@@ -67,6 +89,8 @@ export class TasksController {
   @ApiOperation({
     summary: 'Delete a task',
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number): Promise<void> {
     return this.tasksService.remove(id);
   }
