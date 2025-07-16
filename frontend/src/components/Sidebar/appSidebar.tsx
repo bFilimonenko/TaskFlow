@@ -18,7 +18,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 export const AppSidebar = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <Sidebar variant="floating">
@@ -58,7 +58,7 @@ export const AppSidebar = () => {
           </NavLink>
         </SidebarMenuButton>
         <SidebarMenuButton asChild>
-          <NavLink to={APP_PATHS.LOGIN} onClick={() => localStorage.clear()}>
+          <NavLink to={APP_PATHS.LOGIN} onClick={() => logout?.mutate()}>
             <LogOut />
             <span>Logout</span>
           </NavLink>

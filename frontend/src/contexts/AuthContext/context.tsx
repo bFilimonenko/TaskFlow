@@ -26,6 +26,7 @@ type AuthContextType = {
     unknown
   > | null;
   signup: UseMutationResult<any, Error, ISignupForm, unknown> | null;
+  logout: UseMutationResult<any, Error, void, unknown> | null;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -34,4 +35,5 @@ export const AuthContext = createContext<AuthContextType>({
   userLoading: false,
   login: null,
   signup: null,
+  logout: null,
 });

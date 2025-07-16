@@ -6,6 +6,5 @@ export const refreshTokenRequest = async () => {
   const response = await instance.post(API_ENDPOINTS.AUTH_REFRESH, {
     token,
   });
-
-  return response;
+  return response.data;
 };
