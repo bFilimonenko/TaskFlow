@@ -2,6 +2,7 @@ export enum API_ENDPOINTS {
   AUTH_SIGNUP = 'auth/signup',
   AUTH_LOGIN = 'auth/login',
   USER_ME = 'users/me',
+  AUTH_REFRESH = 'auth/refresh',
 
   PROJECTS = 'projects',
   PROJECT_BY_ID = 'projects/:id',
@@ -10,7 +11,6 @@ export enum API_ENDPOINTS {
 
   TASKS = 'tasks',
   TASK_BY_ID = 'tasks/:id',
-  TASK_FILTER = '/tasks/filter',
 
   EMPLOYEES = 'users',
   EMPLOYEE_BY_ID = 'users/:id',

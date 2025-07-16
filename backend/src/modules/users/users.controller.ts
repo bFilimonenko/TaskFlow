@@ -101,6 +101,8 @@ export class UsersController {
     status: HttpStatus.OK,
     type: () => GetUserDto,
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
     return this.usersService.update(id, updateUserDto);
   }
@@ -109,6 +111,8 @@ export class UsersController {
   @ApiOperation({
     summary: 'Delete a user by id',
   })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number): Promise<void> {
     return this.usersService.remove(id);
   }

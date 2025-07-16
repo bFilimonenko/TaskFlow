@@ -13,7 +13,7 @@ const UsersProfilePage = () => {
 
   return (
     <div>
-      <h2 className="font-bold text-2xl mb-4">My Profile</h2>
+      <h2 className="font-bold text-2xl mb-4 ml-10">My Profile</h2>
       <Card className="shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-center gap-6 mb-6">
