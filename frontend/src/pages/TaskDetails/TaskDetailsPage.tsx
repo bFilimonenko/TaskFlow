@@ -1,12 +1,18 @@
 import { TaskDetails } from '@/components/TaskDetails/TaskDetails.tsx';
 import { type ITaskForm, TaskForm } from '@/components/TaskForm/TaskForm.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { Edit } from 'lucide-react';
 import { useState } from 'react';
 
-const TaskPage = () => {
+const TaskDetailsPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { currentTask, updateTask } = useProjects();
 
@@ -19,11 +25,7 @@ const TaskPage = () => {
 
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
           <DialogTrigger asChild>
-            <Button
-              className="absolute top-4 right-4 "
-              variant="secondary"
-              size="icon"
-            >
+            <Button className="absolute top-0 right-0 bg-white" variant="secondary" size="icon">
               <Edit />
             </Button>
           </DialogTrigger>
@@ -54,4 +56,5 @@ const TaskPage = () => {
     </div>
   );
 };
-export default TaskPage;
+
+export default TaskDetailsPage;

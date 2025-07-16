@@ -1,8 +1,8 @@
-import { Login } from '@/components/Login/Login.tsx';
-import logoInvert from '/task-flow-logo-invert.svg';
 import illustrationLogin from '/illustration-login.webp';
+import logoInvert from '/task-flow-logo-invert.svg';
+import { Login } from '@/components/Login/Login.tsx';
 
-export default function LoginPage() {
+const LoginPage = () => {
   return (
     <div className="h-svh grid lg:grid-cols-2 px-10 py-5 ">
       <div className="bg-accent hidden lg:flex lg:flex-col justify-center p-14 gap-12 rounded-l-3xl h-auto">
@@ -22,4 +22,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

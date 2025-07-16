@@ -1,4 +1,6 @@
+import mainLogo from '/task-flow-logo.svg';
 import { APP_PATHS } from '@/app-paths.enum.ts';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar.tsx';
 import {
   Sidebar,
   SidebarContent,
@@ -8,13 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useAuth } from '@/contexts/AuthContext';
 import { NAVIGATION } from '@/layouts/MainLayout/constants.ts';
 import { LogOut } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
-import mainLogo from '/task-flow-logo.svg';
 
 export const AppSidebar = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   return (
     <Sidebar variant="floating">
@@ -35,7 +38,23 @@ export const AppSidebar = () => {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="p-1">
+        <SidebarMenuButton
+          className=" h-9"
+          asChild
+          isActive={location.pathname.split('/')[1] === APP_PATHS.MY_PROFILE}
+        >
+          <NavLink to={APP_PATHS.MY_PROFILE}>
+            <Avatar className="size-8">
+              {/*<AvatarImage src="" />*/}
+              <AvatarFallback className="text-xs bg-blue-200 text-black">
+                {user?.firstName.charAt(0)}
+                {user?.lastName.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <span>My Profile</span>
+          </NavLink>
+        </SidebarMenuButton>
         <SidebarMenuButton asChild>
           <NavLink to={APP_PATHS.LOGIN} onClick={() => localStorage.clear()}>
             <LogOut />

@@ -27,3 +27,4 @@ instance.interceptors.request.use(function (config) {
 export * from './auth';
 export * from './projects';
 export * from './tasks';
+export * from './employees';

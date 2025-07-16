@@ -1,5 +1,11 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
-import type { Task } from '@/contexts/ProjectsContext/context.tsx';
+import {
+  PRIORITY,
+  priorityColors,
+  STATUS,
+  statusColors,
+  type Task,
+} from '@/contexts/ProjectsContext/context.tsx';
 import { useNavigate } from 'react-router-dom';
 
 export const TaskCard = ({ task }: { task: Task }) => {
@@ -13,7 +19,7 @@ export const TaskCard = ({ task }: { task: Task }) => {
         <span className="text-gray-400 text-sm">Task Name</span>
         <p>{task.taskName}</p>
       </div>
-      <div className="flex gap-11">
+      <div className="flex items-center gap-11">
         <div>
           <span className="text-gray-400 text-sm">Estimate</span>
           <p>{task.estimate}</p>
@@ -24,7 +30,14 @@ export const TaskCard = ({ task }: { task: Task }) => {
         </div>
         <div className="w-20">
           <span className="text-gray-400 text-sm">Priority</span>
-          <p>{task.priority}</p>
+          <p className={priorityColors[task.priority as PRIORITY]}>{task.priority}</p>
+        </div>
+        <div className="w-24 justify-items-center">
+          <p
+            className={`inline-block font-bold text-xs py-2 px-3.5 rounded-md ${statusColors[task.status as STATUS]}`}
+          >
+            {task.status}
+          </p>
         </div>
       </div>
     </div>

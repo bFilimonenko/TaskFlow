@@ -5,9 +5,8 @@ export enum APP_PATHS {
   PROJECT_DETAILS = 'project-details',
   PROJECT_TASKS = 'project-tasks',
   TASK_DETAILS = 'task-details',
-  CALENDAR = 'calendar',
   EMPLOYEES = 'employees',
-  SETTINGS = 'settings',
+  MY_PROFILE = 'my-profile',
   LOGIN = '/login',
   SIGNUP = '/signup',
 }

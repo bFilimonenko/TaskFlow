@@ -29,7 +29,7 @@ export class TasksService {
       throw new NotFoundException('Task not found');
     }
 
-    return task
+    return task;
   }
 
   async create(projectId: number, taskDto: CreateTaskDto): Promise<GetTaskDto> {
