@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from '../modules/auth/role.enum';
 import { Tasks } from './tasks.entity';
 
 @Entity('users')
@@ -26,6 +27,13 @@ export class User {
 
   @Column({ default: false })
   isActive?: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  role?: Role;
 
   @ManyToMany(() => Tasks, (task) => task.users)
   tasks: Tasks[];

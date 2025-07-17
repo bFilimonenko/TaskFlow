@@ -38,7 +38,17 @@ export class AuthService {
   }
 
   async createAccessToken(userId: number): Promise<string | any> {
-    return this.jwtService.signAsync({ id: userId }, { expiresIn: '1h' });
+    const user = await this.usersService.findOneByID(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const payload = {
+      id: user.id,
+      role: user.role,
+    };
+
+    return this.jwtService.signAsync(payload, { expiresIn: '1h' });
   }
 
   async createRefreshToken(userId: number): Promise<string> {

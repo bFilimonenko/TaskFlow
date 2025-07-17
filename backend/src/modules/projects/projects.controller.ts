@@ -14,6 +14,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/role.enum';
+import { RolesGuard } from '../auth/roles.guard';
 import { FilterTaskDto } from '../tasks/dto/request/filter-task.dto';
 import { GetTaskDto } from '../tasks/dto/response/get-task.dto';
 import { ProjectDto } from './dto/project.dto';
@@ -96,7 +99,8 @@ export class ProjectsController {
     status: HttpStatus.OK,
     type: () => ProjectDto,
   })
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   @ApiBearerAuth()
   createProject(@Body() createProjectDto: CreateProjectDto): Promise<ProjectDto> {
     return this.projectsService.create(createProjectDto);
