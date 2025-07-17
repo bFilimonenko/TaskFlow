@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { RefreshToken } from '../../entity/refresh-token.entity';
 import { UsersService } from '../users/users.service';
+import { LogoutDto } from './dto/request/logout.dto';
 import { SignUpDto } from './dto/request/sign-up.dto';
 
 @Injectable()
@@ -24,6 +25,8 @@ export class AuthService {
       userdata.password = await bcrypt.hash(userdata.password, saltRounds);
 
       const newUser = await this.usersService.create(userdata);
+
+      await this.usersService.changeStatus(newUser.id, true);
 
       return {
         accessToken: await this.createAccessToken(newUser.id),
@@ -76,6 +79,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid password');
       }
 
+      await this.usersService.changeStatus(user.id, true);
       return {
         accessToken: await this.createAccessToken(user.id),
         refreshToken: await this.createRefreshToken(user.id),
@@ -85,8 +89,9 @@ export class AuthService {
     }
   }
 
-  async logout(refreshToken: string): Promise<void> {
-    await this.refreshTokenRepository.delete({ refreshToken });
+  async logout({ id, token }: LogoutDto): Promise<void> {
+    await this.usersService.changeStatus(id, false);
+    await this.refreshTokenRepository.delete(token);
   }
 
   async refreshTokens(refreshToken: string): Promise<any> {

@@ -26,8 +26,10 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const logout = useMutation({
     mutationFn: () => {
-      const refreshToken = localStorage.getItem('refreshToken');
-      return logoutRequest(refreshToken);
+      return logoutRequest({
+        id: data?.id,
+        refreshToken: localStorage.getItem('refreshToken'),
+      });
     },
     onSuccess: () => {
       localStorage.removeItem('accessToken');

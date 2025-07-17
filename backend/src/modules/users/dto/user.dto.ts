@@ -63,5 +63,5 @@ export class UserDto {
   })
   @IsBoolean()
   @Expose()
-  isActive?: boolean = true;
+  isActive?: boolean = false;
 }

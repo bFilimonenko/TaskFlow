@@ -53,7 +53,7 @@ export class AuthController {
     description: 'Success',
   })
   logout(@Body() logoutDto: LogoutDto) {
-    return this.authService.logout(logoutDto.refreshToken);
+    return this.authService.logout(logoutDto);
   }
 
   @Post('refresh')

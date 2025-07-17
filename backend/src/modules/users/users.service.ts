@@ -33,6 +33,10 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
+  async changeStatus(id: number, status: boolean) {
+    return await this.usersRepository.update(id, { isActive: status });
+  }
+
   async update(id: number, user: UpdateUserDto): Promise<UpdateResult> {
     return await this.usersRepository.update(id, user);
   }
