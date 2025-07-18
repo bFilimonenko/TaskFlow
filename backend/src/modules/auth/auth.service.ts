@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { RefreshToken } from '../../entity/refresh-token.entity';
 import { UsersService } from '../users/users.service';
 import { LogoutDto } from './dto/request/logout.dto';
@@ -22,6 +22,11 @@ export class AuthService {
   async signUp(userdata: SignUpDto): Promise<any> {
     const saltRounds: number = Number(this.configService.get('SALT_ROUNDS'));
     try {
+      const existingUser = await this.usersService.findOneByEmail(userdata.email);
+      if (existingUser) {
+        throw new BadRequestException('User with this email already exists');
+      }
+
       userdata.password = await bcrypt.hash(userdata.password, saltRounds);
 
       const newUser = await this.usersService.create(userdata);
@@ -33,6 +38,12 @@ export class AuthService {
         refreshToken: await this.createRefreshToken(newUser.id),
       };
     } catch (err) {
+      if (err instanceof BadRequestException) {
+        throw err;
+      }
+      if (err instanceof QueryFailedError && err.message.includes('duplicate key')) {
+        throw new BadRequestException('User with this email already exists');
+      }
       throw new Error('Error hashing password or creating user');
     }
   }

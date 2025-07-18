@@ -1,5 +1,6 @@
 import { refreshTokenRequest } from '@/api/auth/refreshToken.ts';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -53,6 +54,9 @@ instance.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    }
+    if (error.response.status === 400) {
+      toast.error(error.response.data?.message);
     }
     return Promise.reject(error);
   },
