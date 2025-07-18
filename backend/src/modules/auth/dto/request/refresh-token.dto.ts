@@ -7,5 +7,5 @@ export class RefreshTokenDto {
   })
   @IsString()
   @IsNotEmpty()
-  token: string;
+  refreshToken: string;
 }

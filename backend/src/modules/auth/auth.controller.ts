@@ -62,6 +62,6 @@ export class AuthController {
     description: 'New tokens returned',
   })
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.authService.refreshTokens(refreshTokenDto.token);
+    return this.authService.refreshTokens(refreshTokenDto.refreshToken);
   }
 }

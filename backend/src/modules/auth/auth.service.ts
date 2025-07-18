@@ -99,9 +99,9 @@ export class AuthService {
     }
   }
 
-  async logout({ id, token }: LogoutDto): Promise<void> {
+  async logout({ id, refreshToken }: LogoutDto): Promise<void> {
     await this.usersService.changeStatus(id, false);
-    await this.refreshTokenRepository.delete(token);
+    await this.refreshTokenRepository.delete({ refreshToken });
   }
 
   async refreshTokens(refreshToken: string): Promise<any> {
