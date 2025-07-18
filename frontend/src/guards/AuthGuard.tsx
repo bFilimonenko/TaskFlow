@@ -1,4 +1,5 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
+import { Loading } from '@/components/Loading/Loading.tsx';
 import { useAuth } from '@/contexts/AuthContext';
 import { type FC, type PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
   }, [userLoading, isAuth]);
 
   if (userLoading) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   return children;

@@ -1,5 +1,7 @@
 import type { User } from '@/contexts/AuthContext/context.tsx';
+import type { UseMutationResult } from '@tanstack/react-query';
 import { createContext } from 'react';
+import type { Role } from '../../../role.enum.ts';
 
 type EmployeesContextType = {
   employees: User[] | null;
@@ -7,6 +9,7 @@ type EmployeesContextType = {
   selectedEmployees: User[] | undefined;
   refetchSelectedEmployees: () => void;
   setEmployeeIdsToFetch: (ids: number[]) => void;
+  changeRole: UseMutationResult<any, Error, { id: string; role: Role }, unknown> | null;
 };
 
 export const EmployeesContext = createContext<EmployeesContextType>({
@@ -15,4 +18,5 @@ export const EmployeesContext = createContext<EmployeesContextType>({
   selectedEmployees: undefined,
   refetchSelectedEmployees: () => {},
   setEmployeeIdsToFetch: () => {},
+  changeRole: null,
 });

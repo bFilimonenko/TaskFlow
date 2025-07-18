@@ -58,7 +58,6 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
         onSubmit={(values, { setSubmitting }) => {
           signup?.mutate(values);
           setSubmitting(false);
-          // toast.error(values);
         }}
       >
         {({ handleSubmit }) => (

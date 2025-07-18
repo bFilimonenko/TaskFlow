@@ -1,2 +1,2 @@
 export * from './getEmployees';
-export * from './getEmploeesByIds';
+export * from './getEmployeesByIds.ts';

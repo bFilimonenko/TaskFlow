@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
         path: APP_PATHS.HOME,
         element: (
           <AuthGuard>
-            <RoleGuard allowedRoles={[`${Role.ADMIN}`]}>
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
               <HomePage />
             </RoleGuard>
           </AuthGuard>
@@ -39,7 +39,9 @@ export const router = createBrowserRouter([
             path: '',
             element: (
               <AuthGuard>
-                <ProjectsPage />
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <ProjectsPage />
+                </RoleGuard>
               </AuthGuard>
             ),
             children: [
@@ -50,7 +52,9 @@ export const router = createBrowserRouter([
                     path: '',
                     element: (
                       <AuthGuard>
-                        <TasksPage />
+                        <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                          <TasksPage />
+                        </RoleGuard>
                       </AuthGuard>
                     ),
                   },
@@ -58,7 +62,9 @@ export const router = createBrowserRouter([
                     path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
                     element: (
                       <AuthGuard>
-                        <TaskDetailsPage />
+                        <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                          <TaskDetailsPage />
+                        </RoleGuard>
                       </AuthGuard>
                     ),
                   },
@@ -70,7 +76,9 @@ export const router = createBrowserRouter([
             path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
             element: (
               <AuthGuard>
-                <ProjectDetailsPage />
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <ProjectDetailsPage />
+                </RoleGuard>
               </AuthGuard>
             ),
             children: [
@@ -78,7 +86,9 @@ export const router = createBrowserRouter([
                 path: '',
                 element: (
                   <AuthGuard>
-                    <TasksPage />
+                    <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                      <TasksPage />
+                    </RoleGuard>
                   </AuthGuard>
                 ),
               },
@@ -86,7 +96,9 @@ export const router = createBrowserRouter([
                 path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
                 element: (
                   <AuthGuard>
-                    <TaskDetailsPage />
+                    <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                      <TaskDetailsPage />
+                    </RoleGuard>
                   </AuthGuard>
                 ),
               },
@@ -96,7 +108,9 @@ export const router = createBrowserRouter([
             path: APP_PATHS.ADD_PROJECT,
             element: (
               <AuthGuard>
-                <AddProjectPage />
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <AddProjectPage />
+                </RoleGuard>
               </AuthGuard>
             ),
           },
@@ -106,7 +120,9 @@ export const router = createBrowserRouter([
         path: APP_PATHS.EMPLOYEES,
         element: (
           <AuthGuard>
-            <EmployeesPage />
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+              <EmployeesPage />
+            </RoleGuard>
           </AuthGuard>
         ),
       },
@@ -114,7 +130,9 @@ export const router = createBrowserRouter([
         path: APP_PATHS.MY_PROFILE,
         element: (
           <AuthGuard>
-            <UsersProfilePage />
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+              <UsersProfilePage />
+            </RoleGuard>
           </AuthGuard>
         ),
       },

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Role } from '../../auth/role.enum';
 
 export class UserDto {
@@ -70,8 +70,9 @@ export class UserDto {
     description: 'User role',
     example: 'admin',
     required: false,
+    enum: Role,
   })
-  @IsString()
+  @IsEnum(Role)
   @Expose()
   role?: Role = Role.USER;
 }

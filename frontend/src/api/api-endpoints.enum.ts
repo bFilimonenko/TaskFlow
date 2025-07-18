@@ -16,4 +16,6 @@ export enum API_ENDPOINTS {
   EMPLOYEES = 'users',
   EMPLOYEE_BY_ID = 'users/:id',
   EMPLOYEES_BY_IDS = 'users/some',
+
+  ADMIN_EMPLOYEE_ROLE = 'users/admin/:id',
 }
