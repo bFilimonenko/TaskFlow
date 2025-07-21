@@ -10,6 +10,7 @@ type EmployeesContextType = {
   refetchSelectedEmployees: () => void;
   setEmployeeIdsToFetch: (ids: number[]) => void;
   changeRole: UseMutationResult<any, Error, { id: string; role: Role }, unknown> | null;
+  editUserProfile: UseMutationResult<any, Error, { id: number; userValues: User }, unknown> | null;
 };
 
 export const EmployeesContext = createContext<EmployeesContextType>({
@@ -19,4 +20,5 @@ export const EmployeesContext = createContext<EmployeesContextType>({
   refetchSelectedEmployees: () => {},
   setEmployeeIdsToFetch: () => {},
   changeRole: null,
+  editUserProfile: null,
 });

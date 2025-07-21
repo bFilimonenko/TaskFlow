@@ -1,2 +1,3 @@
 export * from './getEmployees';
-export * from './getEmployeesByIds.ts';
+export * from './getEmployeesByIds';
+export * from './editUserProfile';

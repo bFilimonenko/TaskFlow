@@ -62,7 +62,7 @@ instance.interceptors.response.use(
   },
 );
 
-instance.interceptors.request.use(function(config) {
+instance.interceptors.request.use(function (config) {
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
