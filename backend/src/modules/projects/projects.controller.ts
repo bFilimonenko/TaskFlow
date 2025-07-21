@@ -100,7 +100,6 @@ export class ProjectsController {
     type: () => ProjectDto,
   })
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   @ApiBearerAuth()
   createProject(@Body() createProjectDto: CreateProjectDto): Promise<ProjectDto> {
     return this.projectsService.create(createProjectDto);
