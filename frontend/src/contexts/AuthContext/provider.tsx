@@ -1,4 +1,4 @@
-import { getMe, loginRequest } from '@/api';
+import { getMe, loginRequest, logoutRequest } from '@/api';
 import { signupRequest } from '@/api/auth/signup.ts';
 import { APP_PATHS } from '@/app-paths.enum.ts';
 import { AuthContext } from '@/contexts/AuthContext/context.tsx';
@@ -24,11 +24,25 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     },
   });
 
+  const logout = useMutation({
+    mutationFn: () => {
+      return logoutRequest({
+        id: data?.id,
+        refreshToken: localStorage.getItem('refreshToken'),
+      });
+    },
+    onSuccess: () => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      window.location.replace(APP_PATHS.LOGIN);
+    },
+  });
+
   const { data, isFetching } = useQuery({ queryKey: ['user'], queryFn: getMe });
 
   return (
     <AuthContext.Provider
-      value={{ isAuth: !!data, user: data, userLoading: isFetching, login, signup }}
+      value={{ isAuth: !!data, user: data, userLoading: isFetching, login, signup, logout }}
     >
       {children}
     </AuthContext.Provider>

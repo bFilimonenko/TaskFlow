@@ -5,6 +5,7 @@ import { CreateTokens1750338932463 } from './src/migrations/1750338932463-Create
 import { CreateProjects1751039385931 } from './src/migrations/1751039385931-CreateProjects';
 import { CreateTasks1751446658622 } from './src/migrations/1751446658622-CreateTasks';
 import { CreateTasksUsersJoinTable1751453247864 } from './src/migrations/1751453247864-CreateTasksUsersJoinTable';
+import { AddUsersRoles1752761244725 } from './src/migrations/1752761244725-AddUsersRoles';
 
 config();
 
@@ -23,5 +24,6 @@ export const dataSource = new DataSource({
     CreateProjects1751039385931,
     CreateTasks1751446658622,
     CreateTasksUsersJoinTable1751453247864,
+    AddUsersRoles1752761244725,
   ],
 });

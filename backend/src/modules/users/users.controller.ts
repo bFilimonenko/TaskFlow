@@ -18,6 +18,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { UpdateResult } from 'typeorm';
 import { AuthGuard } from '../auth/auth.guard';
 import { UpdateUserDto } from './dto/request/update-user.dto';
+import { UserRoleDto } from './dto/request/user-role.dto';
 import { GetUserDto } from './dto/response/get-user.dto';
 import { UsersService } from './users.service';
 
@@ -105,6 +106,20 @@ export class UsersController {
   @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Patch('admin/:id')
+  @ApiOperation({
+    summary: 'Update a user by id',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: () => GetUserDto,
+  })
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  changeRole(@Param('id') id: number, @Body() userRoleDto: UserRoleDto): Promise<UpdateResult> {
+    return this.usersService.changeRole(id, userRoleDto);
   }
 
   @Delete(':id')

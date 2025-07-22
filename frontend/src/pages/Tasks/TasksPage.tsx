@@ -1,4 +1,5 @@
 import { FilterTasks } from '@/components/FilterTasks/FilterTasks.tsx';
+import { Loading } from '@/components/Loading/Loading.tsx';
 import { EmptyTasksList } from '@/components/TasksList/EmptyTasksList.tsx';
 import { TasksList } from '@/components/TasksList/TasksList.tsx';
 import { Button } from '@/components/ui/button.tsx';
@@ -18,7 +19,7 @@ const TasksPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   if (!currentProjectTasks) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const activeFiltersCount = Object.values(taskFilters).filter(Boolean).length;

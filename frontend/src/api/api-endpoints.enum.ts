@@ -1,6 +1,7 @@
 export enum API_ENDPOINTS {
   AUTH_SIGNUP = 'auth/signup',
   AUTH_LOGIN = 'auth/login',
+  AUTH_LOGOUT = 'auth/logout',
   USER_ME = 'users/me',
   AUTH_REFRESH = 'auth/refresh',
 
@@ -15,5 +16,6 @@ export enum API_ENDPOINTS {
   EMPLOYEES = 'users',
   EMPLOYEE_BY_ID = 'users/:id',
   EMPLOYEES_BY_IDS = 'users/some',
-}
 
+  ADMIN_EMPLOYEE_ROLE = 'users/admin/:id',
+}

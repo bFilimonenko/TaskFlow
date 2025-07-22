@@ -1,2 +1,3 @@
 export * from './getEmployees';
-export * from './getEmploeesByIds';
+export * from './getEmployeesByIds';
+export * from './editUserProfile';

@@ -1,23 +1,14 @@
 import { Button } from '@/components/ui/button.tsx';
+import { DialogClose } from '@/components/ui/dialog.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
-import { useAuth } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils.ts';
+import type { User } from '@/contexts/AuthContext/context.tsx';
+import { useEmployees } from '@/contexts/EmployeesContext';
 import { ErrorMessage, Field, Formik } from 'formik';
-import { ArrowRight } from 'lucide-react';
-import type { ComponentProps } from 'react';
 import * as Yup from 'yup';
+import { ScrollArea } from '../ui/scroll-area';
 
-export interface ISignupForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  age?: number | null;
-  city?: string | null;
-}
-
-const signupSchema = Yup.object().shape({
+const userSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(2, 'Name must be at least 2 letters')
     .matches(
@@ -33,39 +24,25 @@ const signupSchema = Yup.object().shape({
     )
     .required(),
   email: Yup.string().email('Invalid email address').required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
-  confirm: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
   age: Yup.number().min(18).notRequired(),
   city: Yup.string().notRequired(),
 });
 
-export const Signup = ({ className }: ComponentProps<'form'>) => {
-  const { signup } = useAuth();
+export const UserForm = ({ user }: { user: User }) => {
+  const { editUserProfile } = useEmployees();
+
   return (
-    <div className={className}>
-      <Formik<ISignupForm>
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          age: undefined,
-          city: undefined,
-        }}
-        validationSchema={signupSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          signup?.mutate(values);
-          setSubmitting(false);
-        }}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit} className={cn('flex flex-col gap-6')}>
-            <div className="flex flex-col items-center gap-2 text-center">
-              <h1 className="text-2xl font-bold">Create your account</h1>
-            </div>
-            <div className="grid grid-cols-2 gap-6 items-start">
+    <Formik
+      initialValues={user}
+      validationSchema={userSchema}
+      onSubmit={(values) => {
+        editUserProfile?.mutate({ id: user.id, userValues: values });
+      }}
+    >
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <ScrollArea className="h-[300px] border-blue-100 border-1">
+            <div className="grid gap-6 items-start p-4">
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="firstName">First Name *</Label>
@@ -73,6 +50,7 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
                 <Field name="firstName" id="firstName" as={Input} />
                 <ErrorMessage name="firstName" component="div" className="text-red-700" />
               </div>
+
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="lastName">Last Name *</Label>
@@ -80,25 +58,13 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
                 <Field name="lastName" id="lastName" as={Input} />
                 <ErrorMessage name="lastName" component="div" className="text-red-700" />
               </div>
-              <div className="grid col-span-2 gap-3">
+
+              <div className="grid gap-3">
                 <Label htmlFor="email">Email Address *</Label>
                 <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
                 <ErrorMessage name="email" component="div" className="text-red-700" />
               </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Create Password *</Label>
-                </div>
-                <Field type="password" name="password" id="password" as={Input} />
-                <ErrorMessage name="password" component="div" className="text-red-700" />
-              </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="confirm">Confirm Password *</Label>
-                </div>
-                <Field type="password" name="confirm" id="confirm" as={Input} />
-                <ErrorMessage name="confirm" component="div" className="text-red-700" />
-              </div>
+
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="age">Age</Label>
@@ -106,6 +72,7 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
                 <Field type="number" name="age" id="age" as={Input} />
                 <ErrorMessage name="age" component="div" className="text-red-700" />
               </div>
+
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="city">City</Label>
@@ -113,14 +80,28 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
                 <Field name="city" id="city" as={Input} />
                 <ErrorMessage name="city" component="div" className="text-red-700" />
               </div>
-              <Button type="submit" className="w-full" variant="custom">
-                Create
-                <ArrowRight />
-              </Button>
             </div>
-          </form>
-        )}
-      </Formik>
-    </div>
+          </ScrollArea>
+          <div className="grid grid-cols-2 gap-2 p-3">
+            <DialogClose>
+              <Button
+                type="button"
+                className="w-full hover:shadow-lg hover:bg-red-200 bg-red-300 font-bold"
+                variant="secondary"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              type="submit"
+              className="hover:shadow-lg hover:bg-blue-100 bg-blue-300 font-bold"
+              variant="outline"
+            >
+              Save
+            </Button>
+          </div>
+        </form>
+      )}
+    </Formik>
   );
 };

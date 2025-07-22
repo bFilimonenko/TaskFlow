@@ -3,9 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { RefreshToken } from '../../entity/refresh-token.entity';
 import { UsersService } from '../users/users.service';
+import { LogoutDto } from './dto/request/logout.dto';
 import { SignUpDto } from './dto/request/sign-up.dto';
 
 @Injectable()
@@ -21,21 +22,44 @@ export class AuthService {
   async signUp(userdata: SignUpDto): Promise<any> {
     const saltRounds: number = Number(this.configService.get('SALT_ROUNDS'));
     try {
+      const existingUser = await this.usersService.findOneByEmail(userdata.email);
+      if (existingUser) {
+        throw new BadRequestException('User with this email already exists');
+      }
+
       userdata.password = await bcrypt.hash(userdata.password, saltRounds);
 
       const newUser = await this.usersService.create(userdata);
+
+      await this.usersService.changeStatus(newUser.id, true);
 
       return {
         accessToken: await this.createAccessToken(newUser.id),
         refreshToken: await this.createRefreshToken(newUser.id),
       };
     } catch (err) {
+      if (err instanceof BadRequestException) {
+        throw err;
+      }
+      if (err instanceof QueryFailedError && err.message.includes('duplicate key')) {
+        throw new BadRequestException('User with this email already exists');
+      }
       throw new Error('Error hashing password or creating user');
     }
   }
 
   async createAccessToken(userId: number): Promise<string | any> {
-    return this.jwtService.signAsync({ id: userId }, { expiresIn: '1h' });
+    const user = await this.usersService.findOneByID(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const payload = {
+      id: user.id,
+      role: user.role,
+    };
+
+    return this.jwtService.signAsync(payload, { expiresIn: '1h' });
   }
 
   async createRefreshToken(userId: number): Promise<string> {
@@ -76,6 +100,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid password');
       }
 
+      await this.usersService.changeStatus(user.id, true);
       return {
         accessToken: await this.createAccessToken(user.id),
         refreshToken: await this.createRefreshToken(user.id),
@@ -83,6 +108,11 @@ export class AuthService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async logout({ id, refreshToken }: LogoutDto): Promise<void> {
+    await this.usersService.changeStatus(id, false);
+    await this.refreshTokenRepository.delete({ refreshToken });
   }
 
   async refreshTokens(refreshToken: string): Promise<any> {

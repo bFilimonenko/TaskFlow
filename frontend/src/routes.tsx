@@ -1,8 +1,10 @@
 import { APP_PATHS } from '@/app-paths.enum.ts';
 import { AuthGuard } from '@/guards/AuthGuard.tsx';
+import { RoleGuard } from '@/guards/RolesGuard.tsx';
 import { MainLayout } from '@/layouts/MainLayout';
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+import { Role } from '../role.enum.ts';
 
 const AddProjectPage = lazy(() => import('@/pages/AddProject/AddProjectPage.tsx'));
 const EmployeesPage = lazy(() => import('@/pages/Employees/EmployeesPage.tsx'));
@@ -24,7 +26,9 @@ export const router = createBrowserRouter([
         path: APP_PATHS.HOME,
         element: (
           <AuthGuard>
-            <HomePage />
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+              <HomePage />
+            </RoleGuard>
           </AuthGuard>
         ),
       },
@@ -33,18 +37,36 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <ProjectsPage />,
+            element: (
+              <AuthGuard>
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <ProjectsPage />
+                </RoleGuard>
+              </AuthGuard>
+            ),
             children: [
               {
                 path: `:projectId/${APP_PATHS.PROJECT_TASKS}`,
                 children: [
                   {
                     path: '',
-                    element: <TasksPage />,
+                    element: (
+                      <AuthGuard>
+                        <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                          <TasksPage />
+                        </RoleGuard>
+                      </AuthGuard>
+                    ),
                   },
                   {
                     path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
-                    element: <TaskDetailsPage />,
+                    element: (
+                      <AuthGuard>
+                        <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                          <TaskDetailsPage />
+                        </RoleGuard>
+                      </AuthGuard>
+                    ),
                   },
                 ],
               },
@@ -52,31 +74,67 @@ export const router = createBrowserRouter([
           },
           {
             path: `:projectId/${APP_PATHS.PROJECT_DETAILS}`,
-            element: <ProjectDetailsPage />,
+            element: (
+              <AuthGuard>
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <ProjectDetailsPage />
+                </RoleGuard>
+              </AuthGuard>
+            ),
             children: [
               {
                 path: '',
-                element: <TasksPage />,
+                element: (
+                  <AuthGuard>
+                    <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                      <TasksPage />
+                    </RoleGuard>
+                  </AuthGuard>
+                ),
               },
               {
                 path: `:taskId/${APP_PATHS.TASK_DETAILS}`,
-                element: <TaskDetailsPage />,
+                element: (
+                  <AuthGuard>
+                    <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                      <TaskDetailsPage />
+                    </RoleGuard>
+                  </AuthGuard>
+                ),
               },
             ],
           },
           {
             path: APP_PATHS.ADD_PROJECT,
-            element: <AddProjectPage />,
+            element: (
+              <AuthGuard>
+                <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+                  <AddProjectPage />
+                </RoleGuard>
+              </AuthGuard>
+            ),
           },
         ],
       },
       {
         path: APP_PATHS.EMPLOYEES,
-        element: <EmployeesPage />,
+        element: (
+          <AuthGuard>
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+              <EmployeesPage />
+            </RoleGuard>
+          </AuthGuard>
+        ),
       },
       {
         path: APP_PATHS.MY_PROFILE,
-        element: <UsersProfilePage />,
+        element: (
+          <AuthGuard>
+            <RoleGuard allowedRoles={[`${Role.ADMIN}`, `${Role.USER}`]}>
+              <UsersProfilePage />
+            </RoleGuard>
+          </AuthGuard>
+        ),
       },
       {
         path: '/*',

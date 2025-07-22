@@ -4,13 +4,13 @@ import {
   Controller,
   HttpStatus,
   Post,
-  SerializeOptions,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { GetUserDto } from '../users/dto/response/get-user.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/request/login.dto';
+import { LogoutDto } from './dto/request/logout.dto';
 import { RefreshTokenDto } from './dto/request/refresh-token.dto';
 import { SignUpDto } from './dto/request/sign-up.dto';
 
@@ -44,12 +44,24 @@ export class AuthController {
     return this.authService.login(email, password);
   }
 
+  @Post('logout')
+  @ApiOperation({
+    summary: 'Logout',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Success',
+  })
+  logout(@Body() logoutDto: LogoutDto) {
+    return this.authService.logout(logoutDto);
+  }
+
   @Post('refresh')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'New tokens returned',
   })
   async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
-    return this.authService.refreshTokens(refreshTokenDto.token);
+    return this.authService.refreshTokens(refreshTokenDto.refreshToken);
   }
 }
