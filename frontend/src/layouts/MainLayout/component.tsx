@@ -11,7 +11,7 @@ export const MainLayout = () => {
       <ProjectsProvider>
         <EmployeesProvider>
           <main className="flex-1 h-screen overflow-hidden flex flex-col">
-            <div className="flex-1 overflow-y-auto p-5 md:mr-10">
+            <div className="flex-1 overflow-y-auto p-5 lg:mr-10">
               <Outlet />
             </div>
           </main>

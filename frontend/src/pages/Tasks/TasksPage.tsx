@@ -3,13 +3,7 @@ import { Loading } from '@/components/Loading/Loading.tsx';
 import { EmptyTasksList } from '@/components/TasksList/EmptyTasksList.tsx';
 import { TasksList } from '@/components/TasksList/TasksList.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog.tsx';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
 import { useProjects } from '@/contexts/ProjectsContext';
 import { Filter } from 'lucide-react';
 import { useState } from 'react';
@@ -25,7 +19,7 @@ const TasksPage = () => {
   const activeFiltersCount = Object.values(taskFilters).filter(Boolean).length;
 
   return (
-    <div className="w-3/4 relative">
+    <div className="flex flex-col h-full relative">
       <h2 className="font-bold text-2xl mb-4">Tasks</h2>
 
       <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
@@ -37,9 +31,10 @@ const TasksPage = () => {
           >
             <Filter />
             {activeFiltersCount > 0 && (
-              <span className="absolute top-0 right-0 px-1 min-w-4 translate-x-1/3 -translate-y-1/3 origin-center flex items-center justify-center rounded-full text-xs bg-blue-300 text-destructive-foreground">
-                {activeFiltersCount}
-              </span>
+              <span
+                className="absolute top-0 right-0 px-1 min-w-4 translate-x-1/3 -translate-y-1/3 origin-center flex items-center justify-center rounded-full text-xs bg-blue-300 text-destructive-foreground">
+                  {activeFiltersCount}
+                </span>
             )}
           </Button>
         </DialogTrigger>

@@ -5,7 +5,7 @@ export const TasksList = () => {
   const { currentProjectTasks } = useProjects();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 py-1 overflow-y-auto min-h-0">
       {currentProjectTasks.map((task, index) => (
         <TaskCard key={index} task={task} />
       ))}

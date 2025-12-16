@@ -8,7 +8,7 @@ export const EmployeesList = () => {
     return <EmployeesLoading />;
   }
   return (
-    <div className="flex-1 overflow-y-auto min-h-0 p-3">
+    <div className="flex-1 overflow-y-auto min-h-0">
       <div className="grid gap-5">
         {employees.map((employee, index) => (
           <EmployeeCard key={index} employee={employee} />

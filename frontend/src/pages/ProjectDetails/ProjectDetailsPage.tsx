@@ -21,7 +21,7 @@ const ProjectDetailsPage = () => {
 
   if (!currentProject) return null;
   return (
-    <div>
+    <div className="flex flex-col h-full min-h-0">
       <Button
         variant="link"
         className="justify-start text-accent"
@@ -35,7 +35,7 @@ const ProjectDetailsPage = () => {
         <h1 className="text-4xl font-bold ">{currentProject?.projectName}</h1>
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
           <DialogTrigger asChild>
-            <Button variant="custom" size="custom">
+            <Button variant="custom" size="custom" className='h-fit'>
               <Plus />
               Add Task
             </Button>
@@ -56,7 +56,7 @@ const ProjectDetailsPage = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex gap-6">
+      <div className="flex gap-6 flex-1 overflow-hidden min-h-0">
         <ProjectDetails />
         <Outlet />
       </div>

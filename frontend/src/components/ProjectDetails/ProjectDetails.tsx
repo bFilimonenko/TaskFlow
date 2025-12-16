@@ -14,7 +14,7 @@ export const ProjectDetails = () => {
   if (!currentProject) return null;
 
   return (
-    <div className="relative grid gap-6 h-full bg-white w-73 rounded-3xl overflow-hidden py-6 px-4">
+    <div className="relative grid gap-6 h-full bg-white w-73 rounded-3xl overflow-y-auto py-6 px-4">
       <div>
         <span className="text-gray-400 text-sm">Project Number</span>
         <p>PN{String(currentProject?.id).padStart(5, '0')}</p>

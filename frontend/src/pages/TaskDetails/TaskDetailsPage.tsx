@@ -19,8 +19,8 @@ const TaskDetailsPage = () => {
   if (!currentTask) return null;
 
   return (
-    <div className="w-3/4 h-full relative">
-      <div className="flex flex-row mb-7">
+    <div className="w-3/4 h-full relative flex flex-col min-h-0">
+      <div className="flex flex-row mb-5">
         <h2 className="font-bold text-xl">Task Details</h2>
 
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
