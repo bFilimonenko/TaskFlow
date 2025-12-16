@@ -42,20 +42,16 @@ export function Login({ className, ...props }: ComponentProps<'form'>) {
             <h1 className="text-2xl font-bold">Login to your account</h1>
           </div>
           <div className="grid gap-6">
-            <div className="grid gap-3">
+            <div className="grid gap-3 relative">
               <Label htmlFor="email">Email Address</Label>
               <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
-              <ErrorMessage name="email" component="div" />
+              <ErrorMessage name="email" component="div" className="text-red-700 absolute -bottom-5 left-4 text-xs" />
             </div>
-            <div className="grid gap-3">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
-                  Forgot your password?
-                </a>
-              </div>
+            <div className="grid gap-3 relative">
+              <Label htmlFor="password">Password</Label>
               <Field id="password" type="password" name="password" as={Input} />
-              <ErrorMessage name="password" component="div" />
+              <ErrorMessage name="password" component="div"
+                            className="text-red-700 absolute -bottom-5 left-4 text-xs" />
             </div>
             <Button type="submit" className="w-full" variant="custom">
               Login
