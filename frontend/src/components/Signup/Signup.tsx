@@ -71,47 +71,75 @@ export const Signup = ({ className }: ComponentProps<'form'>) => {
                   <Label htmlFor="firstName">First Name *</Label>
                 </div>
                 <Field name="firstName" id="firstName" as={Input} />
-                <ErrorMessage name="firstName" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="firstName"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid gap-3 relative">
                 <div className="flex items-center">
                   <Label htmlFor="lastName">Last Name *</Label>
                 </div>
                 <Field name="lastName" id="lastName" as={Input} />
-                <ErrorMessage name="lastName" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="lastName"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid col-span-2 gap-3 relative">
                 <Label htmlFor="email">Email Address *</Label>
                 <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
-                <ErrorMessage name="email" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid gap-3 relative">
                 <div className="flex items-center">
                   <Label htmlFor="password">Create Password *</Label>
                 </div>
                 <Field type="password" name="password" id="password" as={Input} />
-                <ErrorMessage name="password" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid gap-3 relative">
                 <div className="flex items-center">
                   <Label htmlFor="confirm">Confirm Password *</Label>
                 </div>
                 <Field type="password" name="confirm" id="confirm" as={Input} />
-                <ErrorMessage name="confirm" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="confirm"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid gap-3 relative">
                 <div className="flex items-center">
                   <Label htmlFor="age">Age</Label>
                 </div>
                 <Field type="number" name="age" id="age" as={Input} />
-                <ErrorMessage name="age" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="age"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <div className="w-full grid gap-3 relative">
                 <div className="flex items-center">
                   <Label htmlFor="city">City</Label>
                 </div>
                 <Field name="city" id="city" as={Input} />
-                <ErrorMessage name="city" component="div" className="text-red-700  absolute -bottom-5 left-4 text-xs" />
+                <ErrorMessage
+                  name="city"
+                  component="div"
+                  className="text-red-700  absolute -bottom-5 left-4 text-xs"
+                />
               </div>
               <Button type="submit" className="w-full" variant="custom">
                 Create

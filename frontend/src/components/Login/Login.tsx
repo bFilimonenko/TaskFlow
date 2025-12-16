@@ -45,13 +45,20 @@ export function Login({ className, ...props }: ComponentProps<'form'>) {
             <div className="grid gap-3 relative">
               <Label htmlFor="email">Email Address</Label>
               <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
-              <ErrorMessage name="email" component="div" className="text-red-700 absolute -bottom-5 left-4 text-xs" />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-700 absolute -bottom-5 left-4 text-xs"
+              />
             </div>
             <div className="grid gap-3 relative">
               <Label htmlFor="password">Password</Label>
               <Field id="password" type="password" name="password" as={Input} />
-              <ErrorMessage name="password" component="div"
-                            className="text-red-700 absolute -bottom-5 left-4 text-xs" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-700 absolute -bottom-5 left-4 text-xs"
+              />
             </div>
             <Button type="submit" className="w-full" variant="custom">
               Login

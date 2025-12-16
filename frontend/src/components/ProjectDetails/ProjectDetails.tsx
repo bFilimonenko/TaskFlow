@@ -5,7 +5,6 @@ import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY, priorityColors } from '@/contexts/ProjectsContext/context.tsx';
 import { Calendar, Edit } from 'lucide-react';
 import { useState } from 'react';
-import { ScrollArea } from '../ui/scroll-area';
 
 export const ProjectDetails = () => {
   const { currentProject, updateProject } = useProjects();
@@ -26,23 +25,20 @@ export const ProjectDetails = () => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] flex flex-col">
           <h1 className="text-2xl font-bold">Edit Project</h1>
-
-          <ScrollArea className="h-[400px]">
-            <div className="p-4">
-              <ProjectForm
-                editValues={currentProject}
-                formAction={(values: IProjectForm) => {
-                  updateProject?.mutate({
-                    id: currentProject.id,
-                    values,
-                  });
-                }}
-                submitCallback={() => setDialogOpen(false)}
-              />
-            </div>
-          </ScrollArea>
+          <div className="p-4 overflow-y-auto min-h-0">
+            <ProjectForm
+              editValues={currentProject}
+              formAction={(values: IProjectForm) => {
+                updateProject?.mutate({
+                  id: currentProject.id,
+                  values,
+                });
+              }}
+              submitCallback={() => setDialogOpen(false)}
+            />
+          </div>
         </DialogContent>
       </Dialog>
 

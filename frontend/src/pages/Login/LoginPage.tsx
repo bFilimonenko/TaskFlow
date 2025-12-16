@@ -18,7 +18,7 @@ const LoginPage = () => {
         <img src={illustrationLogin} alt="Image" className="w-auto" />
       </div>
       <div className="flex flex-col gap-4 p-6 lg:pl-10 lg:p-0 items-center justify-center h-auto">
-        <Login className='md:w-3/5 w-full'/>
+        <Login className="md:w-3/5 w-full" />
       </div>
     </div>
   );

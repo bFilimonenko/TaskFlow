@@ -40,7 +40,6 @@ export const EmployeeCard = ({ employee }: { employee: User }) => {
         </div>
         {user?.role === Role.ADMIN && <AdminControls employeeId={String(employee.id)} />}
       </div>
-
     </div>
   );
 };

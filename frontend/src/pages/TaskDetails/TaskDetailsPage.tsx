@@ -30,7 +30,7 @@ const TaskDetailsPage = () => {
             </Button>
           </DialogTrigger>
 
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] flex flex-col">
             <DialogHeader>
               <DialogTitle className="text-xl">Edit Task</DialogTitle>
             </DialogHeader>

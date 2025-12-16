@@ -15,11 +15,9 @@ const ProjectsPage = () => {
           Add Project
         </Button>
       </div>
-      <div className="flex gap-6 flex-1 overflow-hidden min-h-0">
+      <div className="flex gap-6 overflow-hidden min-h-0">
         <ProjectsList />
-        <div className="flex-1 overflow-hidden min-h-0">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </div>
   );

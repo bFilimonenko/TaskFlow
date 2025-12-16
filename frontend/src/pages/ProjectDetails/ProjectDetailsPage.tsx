@@ -35,12 +35,12 @@ const ProjectDetailsPage = () => {
         <h1 className="text-4xl font-bold ">{currentProject?.projectName}</h1>
         <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
           <DialogTrigger asChild>
-            <Button variant="custom" size="custom" className='h-fit'>
+            <Button variant="custom" size="custom" className="h-fit">
               <Plus />
               Add Task
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] flex flex-col ">
             <DialogHeader>
               <DialogTitle>Add Task</DialogTitle>
             </DialogHeader>
@@ -56,7 +56,7 @@ const ProjectDetailsPage = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex gap-6 flex-1 overflow-hidden min-h-0">
+      <div className="flex gap-6 overflow-hidden min-h-0">
         <ProjectDetails />
         <Outlet />
       </div>
