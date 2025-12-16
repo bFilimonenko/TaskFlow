@@ -8,8 +8,8 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 export const EmployeeCard = ({ employee }: { employee: User }) => {
   const { user } = useAuth();
   return (
-    <div className="flex items-center bg-white rounded-3xl py-5 px-8 h-auto">
-      <div className="flex gap-4 w-2/4">
+    <div className="flex gap-3 lg:flex-row flex-col lg:items-center justify-between xl:justify-start bg-white rounded-3xl py-5 px-8 h-auto">
+      <div className="flex gap-4 xl:w-2/4 lg:w-auto">
         <div className="relative">
           <Avatar>
             {/*<AvatarImage src="" />*/}
@@ -29,16 +29,18 @@ export const EmployeeCard = ({ employee }: { employee: User }) => {
           <span className="text-gray-400 text-sm">{employee.email}</span>
         </div>
       </div>
-      <div className="w-2/12">
-        <span className="text-gray-400 text-sm">Full age</span>
-        <p>{employee.age ? employee.age : 'Not specified'}</p>
-      </div>
-      <div className="w-1/6">
-        <span className="text-gray-400 text-sm">City</span>
-        <p>{employee.city ? employee.city : 'Not specified'}</p>
+      <div className="flex gap-4 md:gap-8 w-full lg:w-1/2">
+        <div className="">
+          <span className="text-gray-400 text-sm">Full age</span>
+          <p>{employee.age ? employee.age : 'Not specified'}</p>
+        </div>
+        <div className="">
+          <span className="text-gray-400 text-sm">City</span>
+          <p>{employee.city ? employee.city : 'Not specified'}</p>
+        </div>
+        {user?.role === Role.ADMIN && <AdminControls employeeId={String(employee.id)} />}
       </div>
 
-      {user?.role === Role.ADMIN && <AdminControls employeeId={String(employee.id)} />}
     </div>
   );
 };

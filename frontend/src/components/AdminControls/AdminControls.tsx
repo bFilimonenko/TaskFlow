@@ -28,7 +28,7 @@ export const AdminControls = ({ employeeId }: { employeeId: string }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="ml-auto">
+        <Button className="ml-auto my-auto">
           <Edit />
         </Button>
       </DialogTrigger>

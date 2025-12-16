@@ -11,8 +11,8 @@ export const ProjectsList = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-full bg-white w-72 rounded-3xl overflow-hidden p-3">
-      <div className="flex flex-col gap-2">
+    <div className="bg-white w-72 rounded-3xl overflow-hidden flex flex-col h-full min-h-0">
+      <div className="flex flex-col gap-2 overflow-y-auto p-3 min-h-0">
         {isLoading ? (
           <ProjectsLoading />
         ) : (

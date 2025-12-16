@@ -10,8 +10,10 @@ export const MainLayout = () => {
       <AppSidebar />
       <ProjectsProvider>
         <EmployeesProvider>
-          <main className="w-full h-auto py-5 mr-10">
-            <Outlet />
+          <main className="flex-1 h-screen overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-y-auto p-5 md:mr-10">
+              <Outlet />
+            </div>
           </main>
         </EmployeesProvider>
       </ProjectsProvider>
