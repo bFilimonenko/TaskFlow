@@ -9,7 +9,7 @@ export const TaskDetails = () => {
   if (!currentTask) return null;
 
   return (
-    <div className="flex flex-col gap-6 h-full bg-white rounded-3xl p-7">
+    <div className="flex flex-col gap-6 h-full bg-white rounded-3xl p-7 overflow-y-auto">
       <div className="relative">
         <span className="text-gray-400 text-sm">
           PN{String(currentProject?.id).padStart(5, '0')}

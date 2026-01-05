@@ -35,7 +35,7 @@ export const StatusDropdownMenu = () => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="link"
-          className={`absolute top-0 right-1 font-bold text-xs py-2 px-3.5 rounded-md ${statusColors[status as STATUS]}`}
+          className={`absolute -top-3 -right-3 font-bold text-xs py-2 px-3.5 rounded-md ${statusColors[status as STATUS]}`}
         >
           {status}
           <ChevronDown />

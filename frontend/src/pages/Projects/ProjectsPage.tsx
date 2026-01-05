@@ -7,7 +7,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 const ProjectsPage = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="flex flex-col h-full min-h-0">
       <div className="w-auto flex justify-between mb-6 ml-10">
         <h1 className="text-4xl font-bold ">Projects</h1>
         <Button variant="custom" size="custom" onClick={() => navigate(APP_PATHS.ADD_PROJECT)}>
@@ -15,7 +15,7 @@ const ProjectsPage = () => {
           Add Project
         </Button>
       </div>
-      <div className="flex gap-6">
+      <div className="flex gap-6 overflow-hidden min-h-0">
         <ProjectsList />
         <Outlet />
       </div>

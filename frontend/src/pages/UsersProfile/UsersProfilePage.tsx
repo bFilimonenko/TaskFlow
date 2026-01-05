@@ -42,9 +42,11 @@ const UsersProfilePage = () => {
                   <Edit />
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-h-[90vh] flex flex-col">
                 <h1 className="text-2xl font-bold">Edit your profile</h1>
-                <UserForm user={user} />
+                <div className="overflow-y-auto min-h-0">
+                  <UserForm user={user} />
+                </div>
               </DialogContent>
             </Dialog>
           </div>

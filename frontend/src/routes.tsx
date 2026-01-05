@@ -144,10 +144,18 @@ export const router = createBrowserRouter([
   },
   {
     path: APP_PATHS.LOGIN,
-    element: <LoginPage />,
+    element: (
+      <AuthGuard reversed>
+        <LoginPage />
+      </AuthGuard>
+    ),
   },
   {
     path: APP_PATHS.SIGNUP,
-    element: <SignupPage />,
+    element: (
+      <AuthGuard reversed>
+        <SignupPage />
+      </AuthGuard>
+    ),
   },
 ]);

@@ -1,7 +1,13 @@
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.tsx';
 import { Textarea } from '@/components/ui/textarea.tsx';
 import { PRIORITY } from '@/contexts/ProjectsContext/context.tsx';
 import { cn } from '@/lib/utils.ts';
@@ -24,9 +30,11 @@ const addProjectSchema = Yup.object().shape({
   projectName: Yup.string().required(),
   description: Yup.string().notRequired(),
   priority: Yup.mixed<PRIORITY>().oneOf(Object.values(PRIORITY)).required(),
-  starts: Yup.date().required().when('deadLine', (deadLine, schema) => (
-    schema.max(deadLine, 'The start can\'t be later than the deadline')
-  )),
+  starts: Yup.date()
+    .required()
+    .when('deadLine', (deadLine, schema) =>
+      schema.max(deadLine, "The start can't be later than the deadline"),
+    ),
   deadLine: Yup.date().required(),
 });
 
@@ -46,17 +54,17 @@ export const ProjectForm = ({
       initialValues={
         editValues
           ? {
-            ...editValues,
-            starts: new Date(`${editValues.starts}`),
-            deadLine: new Date(`${editValues.deadLine}`),
-          }
+              ...editValues,
+              starts: new Date(`${editValues.starts}`),
+              deadLine: new Date(`${editValues.deadLine}`),
+            }
           : {
-            projectName: '',
-            description: '',
-            priority: undefined,
-            starts: undefined,
-            deadLine: undefined,
-          }
+              projectName: '',
+              description: '',
+              priority: undefined,
+              starts: undefined,
+              deadLine: undefined,
+            }
       }
       validationSchema={addProjectSchema}
       onSubmit={(values: IProjectForm) => {
@@ -77,7 +85,7 @@ export const ProjectForm = ({
             </div>
 
             <div className="grid grid-cols-2">
-              <div className="grid gap-3">
+              <div className="grid gap-3 place-self-start">
                 <div className="flex items-center">
                   <Label htmlFor="starts">Start Date *</Label>
                 </div>
@@ -103,7 +111,7 @@ export const ProjectForm = ({
                 </Popover>
                 <ErrorMessage name="starts" component="div" className="text-red-700" />
               </div>
-              <div className="grid gap-3">
+              <div className="grid gap-3 place-self-start">
                 <div className="flex items-center">
                   <Label htmlFor="deadLine">Dead Line *</Label>
                 </div>

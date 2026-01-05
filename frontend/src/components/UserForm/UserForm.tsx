@@ -6,7 +6,6 @@ import type { User } from '@/contexts/AuthContext/context.tsx';
 import { useEmployees } from '@/contexts/EmployeesContext';
 import { ErrorMessage, Field, Formik } from 'formik';
 import * as Yup from 'yup';
-import { ScrollArea } from '../ui/scroll-area';
 
 const userSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -41,47 +40,46 @@ export const UserForm = ({ user }: { user: User }) => {
     >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <ScrollArea className="h-[300px] border-blue-100 border-1">
-            <div className="grid gap-6 items-start p-4">
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="firstName">First Name *</Label>
-                </div>
-                <Field name="firstName" id="firstName" as={Input} />
-                <ErrorMessage name="firstName" component="div" className="text-red-700" />
+          <div className="grid gap-6 items-start p-4">
+            <div className="grid gap-3">
+              <div className="flex items-center">
+                <Label htmlFor="firstName">First Name *</Label>
               </div>
-
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="lastName">Last Name *</Label>
-                </div>
-                <Field name="lastName" id="lastName" as={Input} />
-                <ErrorMessage name="lastName" component="div" className="text-red-700" />
-              </div>
-
-              <div className="grid gap-3">
-                <Label htmlFor="email">Email Address *</Label>
-                <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
-                <ErrorMessage name="email" component="div" className="text-red-700" />
-              </div>
-
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="age">Age</Label>
-                </div>
-                <Field type="number" name="age" id="age" as={Input} />
-                <ErrorMessage name="age" component="div" className="text-red-700" />
-              </div>
-
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="city">City</Label>
-                </div>
-                <Field name="city" id="city" as={Input} />
-                <ErrorMessage name="city" component="div" className="text-red-700" />
-              </div>
+              <Field name="firstName" id="firstName" as={Input} />
+              <ErrorMessage name="firstName" component="div" className="text-red-700" />
             </div>
-          </ScrollArea>
+
+            <div className="grid gap-3">
+              <div className="flex items-center">
+                <Label htmlFor="lastName">Last Name *</Label>
+              </div>
+              <Field name="lastName" id="lastName" as={Input} />
+              <ErrorMessage name="lastName" component="div" className="text-red-700" />
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="email">Email Address *</Label>
+              <Field name="email" id="email" placeholder="youremail@gmail.com" as={Input} />
+              <ErrorMessage name="email" component="div" className="text-red-700" />
+            </div>
+
+            <div className="grid gap-3">
+              <div className="flex items-center">
+                <Label htmlFor="age">Age</Label>
+              </div>
+              <Field type="number" name="age" id="age" as={Input} />
+              <ErrorMessage name="age" component="div" className="text-red-700" />
+            </div>
+
+            <div className="grid gap-3">
+              <div className="flex items-center">
+                <Label htmlFor="city">City</Label>
+              </div>
+              <Field name="city" id="city" as={Input} />
+              <ErrorMessage name="city" component="div" className="text-red-700" />
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-2 p-3">
             <DialogClose>
               <Button

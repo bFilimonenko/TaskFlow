@@ -6,12 +6,12 @@ const SignupPage = () => {
   return (
     <>
       <div className="flex bg-background min-h-svh p-5 gap-6">
-        <div className="bg-accent h-auto w-1/4 rounded-3xl p-10 overflow-hidden">
+        <div className="md:block hidden bg-accent h-auto w-1/4 rounded-3xl md:p-5 xl:p-10 overflow-hidden">
           <img src={logoInvert} alt="company logo" />
-          <h2 className="text-white font-bold text-4xl my-10">Get started</h2>
+          <h2 className="text-white font-bold md:text-3xl lg:text-4xl my-10">Get started</h2>
           <img src={createAccountImg} alt="image create account" />
         </div>
-        <Signup className="min-h-auto bg-white rounded-3xl w-full p-10"></Signup>
+        <Signup className="min-h-auto bg-white rounded-3xl w-full p-6 sm:p-10"></Signup>
       </div>
     </>
   );

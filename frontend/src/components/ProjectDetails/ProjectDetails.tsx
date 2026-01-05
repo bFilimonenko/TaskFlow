@@ -5,7 +5,6 @@ import { useProjects } from '@/contexts/ProjectsContext';
 import { PRIORITY, priorityColors } from '@/contexts/ProjectsContext/context.tsx';
 import { Calendar, Edit } from 'lucide-react';
 import { useState } from 'react';
-import { ScrollArea } from '../ui/scroll-area';
 
 export const ProjectDetails = () => {
   const { currentProject, updateProject } = useProjects();
@@ -14,7 +13,7 @@ export const ProjectDetails = () => {
   if (!currentProject) return null;
 
   return (
-    <div className="relative grid gap-6 h-full bg-white w-73 rounded-3xl overflow-hidden py-6 px-4">
+    <div className="relative grid gap-6 h-full bg-white w-73 rounded-3xl overflow-y-auto py-6 px-4">
       <div>
         <span className="text-gray-400 text-sm">Project Number</span>
         <p>PN{String(currentProject?.id).padStart(5, '0')}</p>
@@ -26,23 +25,20 @@ export const ProjectDetails = () => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] flex flex-col">
           <h1 className="text-2xl font-bold">Edit Project</h1>
-
-          <ScrollArea className="h-[400px]">
-            <div className="p-4">
-              <ProjectForm
-                editValues={currentProject}
-                formAction={(values: IProjectForm) => {
-                  updateProject?.mutate({
-                    id: currentProject.id,
-                    values,
-                  });
-                }}
-                submitCallback={() => setDialogOpen(false)}
-              />
-            </div>
-          </ScrollArea>
+          <div className="p-4 overflow-y-auto min-h-0">
+            <ProjectForm
+              editValues={currentProject}
+              formAction={(values: IProjectForm) => {
+                updateProject?.mutate({
+                  id: currentProject.id,
+                  values,
+                });
+              }}
+              submitCallback={() => setDialogOpen(false)}
+            />
+          </div>
         </DialogContent>
       </Dialog>
 

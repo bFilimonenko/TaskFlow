@@ -19,9 +19,9 @@ export const EmptyTasksList = () => {
   if (!currentProject) return null;
 
   return (
-    <div className="flex flex-col gap-5 items-center mx-auto">
-      <img src={searchForTasks} alt="no tasks" />
-      <h2 className="font-bold text-2xl">There are no tasks in this project yet Let's add them</h2>
+    <div className="flex flex-col gap-5 items-center mx-auto overflow-y-auto min-h-0">
+      <img src={searchForTasks} alt="no tasks" className="h-[40svh]" />
+      <h2 className="font-bold text-2xl">There are no tasks in this project yet. Let's add them</h2>
       <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
         <DialogTrigger asChild>
           <Button variant="custom" size="custom">
@@ -29,7 +29,7 @@ export const EmptyTasksList = () => {
             Add Task
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Add Task</DialogTitle>
           </DialogHeader>

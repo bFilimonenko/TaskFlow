@@ -9,23 +9,27 @@ const AddProjectPage = () => {
   const { createProject } = useProjects();
 
   return (
-    <div className="w-full bg-white lg:px-30 px-10 py-10 rounded-3xl">
-      <Button
-        className="absolute top-12 right-18"
-        variant="secondary"
-        size="icon"
-        onClick={() => navigate(-1)}
-      >
-        <X />
-      </Button>
-      <h1 className="text-2xl font-bold mb-8">Add Project</h1>
-      <ProjectForm
-        formAction={(values: IProjectForm) => {
-          createProject?.mutate({
-            ...values,
-          });
-        }}
-      />
+    <div className="flex flex-col h-full min-h-0">
+      <div className="relative mb-4">
+        <h1 className="text-2xl font-bold ml-8">Add Project</h1>
+        <Button
+          className="absolute -top-1 right-0 bg-white"
+          variant="secondary"
+          size="icon"
+          onClick={() => navigate(-1)}
+        >
+          <X />
+        </Button>
+      </div>
+      <div className="overflow-y-auto min-h-0 bg-white lg:px-20 md:px-10 p-5 py-10 rounded-3xl">
+        <ProjectForm
+          formAction={(values: IProjectForm) => {
+            createProject?.mutate({
+              ...values,
+            });
+          }}
+        />
+      </div>
     </div>
   );
 };

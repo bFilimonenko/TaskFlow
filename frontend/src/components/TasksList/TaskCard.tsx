@@ -13,13 +13,13 @@ export const TaskCard = ({ task }: { task: Task }) => {
   return (
     <div
       onClick={() => navigate(`${task.id}/${APP_PATHS.TASK_DETAILS}`)}
-      className="flex justify-between bg-white rounded-3xl py-5 px-8 h-auto hover:shadow-md active:bg-blue-50 "
+      className="flex xl:flex-row flex-col gap-2 justify-between bg-white rounded-3xl py-5 px-8 h-auto hover:shadow-md active:bg-blue-50 "
     >
       <div>
         <span className="text-gray-400 text-sm">Task Name</span>
         <p>{task.taskName}</p>
       </div>
-      <div className="flex items-center gap-11">
+      <div className="flex xl:flex-nowrap flex-wrap items-center gap-x-11">
         <div>
           <span className="text-gray-400 text-sm">Estimate</span>
           <p>{task.estimate}</p>

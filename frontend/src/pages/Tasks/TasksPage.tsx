@@ -25,8 +25,8 @@ const TasksPage = () => {
   const activeFiltersCount = Object.values(taskFilters).filter(Boolean).length;
 
   return (
-    <div className="w-3/4 relative">
-      <h2 className="font-bold text-2xl mb-4">Tasks</h2>
+    <div className="w-3/4 flex flex-col h-full relative">
+      <h2 className="font-bold text-2xl mb-4 ">Tasks</h2>
 
       <Dialog open={dialogOpen} onOpenChange={() => setDialogOpen((prev) => !prev)}>
         <DialogTrigger asChild>
@@ -44,12 +44,13 @@ const TasksPage = () => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent>
+        <DialogContent className="max-h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle className="text-xl">Filter</DialogTitle>
           </DialogHeader>
-
-          <FilterTasks submitCallback={() => setDialogOpen(false)} />
+          <div className="overflow-y-auto min-h-0">
+            <FilterTasks submitCallback={() => setDialogOpen(false)} />
+          </div>
         </DialogContent>
       </Dialog>
 

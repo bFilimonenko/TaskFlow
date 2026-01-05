@@ -11,7 +11,7 @@ const HomePage = () => {
           track progress effortlessly.
         </p>
         <Link to="/projects">
-          <Button variant="custom" className="w-full sm:w-auto">
+          <Button variant="custom" className="w-auto">
             View Projects
           </Button>
         </Link>
