@@ -298,7 +298,7 @@ npm run format
 
 ## 👤 Author
 
-Bohdan Filimonenko
+Bohdana Filimonenko
 
 ---
 
