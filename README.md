@@ -2,6 +2,20 @@
 
 A modern full-stack project management application for efficient task and team coordination. TaskFlow provides a comprehensive solution for managing projects, tasks, and team members with role-based access control.
 
+## 🌐 Live Demo
+
+| | URL |
+|---|---|
+| **Frontend** | https://taskflow-app-flax.vercel.app |
+| **Backend API** | https://taskflow-api-ten.vercel.app |
+
+> **Demo credentials** — all accounts share the same password: `Password123!`
+>
+> | Role | Email |
+> |------|-------|
+> | Admin | admin@taskflow.com |
+> | User | alice.johnson@taskflow.com |
+
 ## 📋 Overview
 
 TaskFlow is designed to streamline project and task management workflows. It allows administrators to manage teams, create projects, assign tasks to employees, and track progress. Users can view their assigned tasks, update their status, and manage their profiles. The application features a responsive UI built with React and a robust RESTful API powered by NestJS.

@@ -13,10 +13,10 @@ import { UsersModule } from './modules/users/users.module';
   imports: [
     ConfigModule.forRoot({}),
     TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
-        ...dataSource.options,
-        autoLoadEntities: true,
-      }),
+      useFactory: async () => {
+        const { entities: _, ...connectionOptions } = dataSource.options as any;
+        return { ...connectionOptions, autoLoadEntities: true };
+      },
     }),
     AuthModule,
     UsersModule,
