@@ -15,6 +15,7 @@ const ProjectsPage = lazy(() => import('@/pages/Projects/ProjectsPage.tsx'));
 const SignupPage = lazy(() => import('@/pages/Signup/SignupPage.tsx'));
 const TaskDetailsPage = lazy(() => import('@/pages/TaskDetails/TaskDetailsPage.tsx'));
 const TasksPage = lazy(() => import('@/pages/Tasks/TasksPage.tsx'));
+const NotFoundPage = lazy(() => import('@/pages/NotFound/NotFoundPage.tsx'));
 const UsersProfilePage = lazy(() => import('@/pages/UsersProfile/UsersProfilePage.tsx'));
 
 export const router = createBrowserRouter([
@@ -138,7 +139,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/*',
-        element: <h1>oops, something went wrong</h1>,
+        element: <NotFoundPage />,
       },
     ],
   },

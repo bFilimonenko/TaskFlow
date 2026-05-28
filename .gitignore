@@ -160,3 +160,6 @@ dist
 *.sublime-workspace
 
 *.http
+
+# Vercel
+.vercel

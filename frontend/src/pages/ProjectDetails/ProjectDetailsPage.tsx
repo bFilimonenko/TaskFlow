@@ -24,7 +24,7 @@ const ProjectDetailsPage = () => {
     <div className="flex flex-col h-full min-h-0">
       <Button
         variant="link"
-        className="justify-start text-accent"
+        className="justify-start text-accent ml-2"
         onClick={() =>
           navigate(`/${APP_PATHS.PROJECTS}/${currentProject?.id}/${APP_PATHS.PROJECT_TASKS}`)
         }
